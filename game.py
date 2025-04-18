@@ -19,6 +19,8 @@ Add docstring
 # def progress_tunnel
 #     move tunnel forward at a constant speed
 #     view gets larger when approaching part of the tunnel
+import alien
+import tunnel
 
 
 class Game:
@@ -30,21 +32,14 @@ class Game:
         """
         Add docstring
         """
-        pass
+        self.start = False
 
-    def move_tunnel(self):
+    def start_game(self):
         """
         Add docstring
         """
-        pass
 
     def update_level(self):
-        """
-        Add docstring
-        """
-        pass
-
-    def progress_tunnel(self):
         """
         Add docstring
         """

@@ -2,6 +2,9 @@
 Add docstring
 """
 
+import pygame
+import time
+
 # 	class alien (just the player)
 # 		init
 # 			alien_state (dead or alive, running or stopped)
@@ -25,16 +28,37 @@ class Alien:
         """
         Add docstring
         """
-        pass
+        self.alive = False
 
-    def update_alien(self):
+    def animate_alien(self):
         """
         Add docstring
         """
-        pass
+        while self.alive and not self.jumping:
+            image = right_foot
+            time.sleep(0.5)
+            image = left_foot
+            time.sleep(0.5)
+        image = rest
+
+    def alien_death(self):
+        """
+        Add docstring
+        """
 
     def jump(self):
         """
         Add docstring
         """
-        pass
+        while self.alive:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.alive = False
+            keys = pygame.key.get_pressed()
+            if keys[pygame.K_SPACE]:
+                dude.y -= 1
+                self.jumping = True
+            elif dude.y < 220:
+                dude.y += 1
+                self.jumping = True
+        pygame.display.flip()
