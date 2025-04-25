@@ -1,9 +1,11 @@
-alien = Alien(#where he's at)
-    
+import pygame
+
+alien = Alien("where he's at")
+pygame.init()
 running = True
 while running:
     for event in pygame.event.get():
-        if event.type == pygame.QUIT:
+        if event.type == pygame.QUIT[]:
             running = False
     keys = pygame.key.get_pressed()
     if keys[pygame.K_SPACE]:

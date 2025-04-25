@@ -18,6 +18,10 @@ import pygame
 # 			stop moving
 # 		def jump
 # 			alien_go_up: when space bar is clicked, alien goes up first and then down (original pos) along the y-axis
+#       def x_change
+#           while running:
+#             when < is pressed change x by negative something
+#             when > is pressed change x by positive something
 
 
 class Alien(pygame.sprite.Sprite):
@@ -29,18 +33,15 @@ class Alien(pygame.sprite.Sprite):
         """
         Constructs the alien as a sprite.
 
+        Args:
+            x: An integer representing the x value of the character.
+            y: An integer representing the y value of the character.
+
         Attributes:
-            color: A list representing the color of the alien.
-            alive: A boolean representing if the alien is alive or dead.
-            velocity_y: An integer representing the current y velocity of the alien.
-            jump_strength: An integer representing the amount the alien is jumping.
-            gravity: An integer representing the strength of gravity.
-            original_y: An integer representing the current y position of the alien.
-            on_ground: A boolean representing whether or not the alien is touching the ground.
-            jumping: A boolean representing whether or not the alien is jumping.
+
         """
-        self.image = image
-        self.rect = image.get_rect()
+        self.image = pygame.image.load("character_images/both_legs.png")
+        self.rect = self.image.get_rect()
         self.x = x
         self.y = y
         self.color = (0, 128, 255)
@@ -52,7 +53,21 @@ class Alien(pygame.sprite.Sprite):
         self.on_ground = True
         self.jumping = False
 
-    def update(self):
+    def x_change(self):
+        run = True
+        velocity_x = 10
+        while run:
+            pygame.time.delay(100)
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT[]:
+                    run = False
+            keys = pygame.key.get_pressed()
+            if keys[pygame.K_LEFT]:
+                self.x -= velocity_x
+            if keys[pygame.K_RIGHT]:
+                self.x += velocity_x
+
+    def alien_go_down(self):
         """
         Updates the position of the alien to return down to the ground after jumping
         """
@@ -66,34 +81,6 @@ class Alien(pygame.sprite.Sprite):
                 self.on_ground = True
                 self.jumping = False
 
-    def animate_alien(self):
-        """
-        Updates alien's graphic to one of three images to display running and jumping.
-        """
-        image_sprite = [
-            pygame.image.load(
-                "image_right_foot.png", "image_left_foot.png", "image_rest.png"
-            )
-        ]
-        clock = pygame.time.Clock()
-        value = 0
-        image = image_rest
-        while self.alive and not self.jumping:
-            clock.tick(3)
-            if value >= len(image_sprite):
-                value = 0
-            image = image_right_foot
-            time.sleep(0.5)
-            image = image_left_foot
-            time.sleep(0.5)
-
-    def alien_death(self):
-        """
-        Updates the alien's status from alive to dead when it falls.
-        """
-        # How to detect death
-        self.alive = False
-
     def jump(self):
         """
         Makes the alien jumping by changing it's y position.
@@ -102,3 +89,25 @@ class Alien(pygame.sprite.Sprite):
             self.velocity_y = self.jump_strength
             self.on_ground = False
             self.jumping = True
+
+    def alien_death(self):
+        """
+        Updates the alien's status from alive to dead when it falls.
+        """
+        # How to detect death
+        black = [0, 0, 0]
+        if pygame.Surface.get_at(self.x, self.y) == black and self.on_ground:
+            self.alive = False
+
+    def animate_alien(self):
+        """
+        Updates alien's graphic to one of three images to display running, jumping, and death.
+        """
+        while self.alive and not self.jumping:
+            self.image = pygame.image.load("character_images/left_leg.png")
+            time.sleep(0.5)
+            self.image = pygame.image.load("character_images/right_leg.png")
+            time.sleep(0.5)
+            self.image = pygame.image.load("character_images/both_legs.png")
+        else:
+            self.image = pygame.image.load("character_images/both_legs.png")
