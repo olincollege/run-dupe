@@ -27,9 +27,13 @@ import pygame
 class Alien(pygame.sprite.Sprite):
     """
     Add docstring
+
+    Attributes:
+
     """
 
     def __init__(self, x, y):
+        
         """
         Constructs the alien as a sprite.
 
@@ -54,6 +58,7 @@ class Alien(pygame.sprite.Sprite):
         self.jumping = False
 
     def x_change(self):
+        """Add docstring"""
         run = True
         velocity_x = 10
         while run:
