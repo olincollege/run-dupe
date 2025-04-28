@@ -4,7 +4,9 @@ Returns:
     _type_: _description_
 """
 
+import random
 import pygame
+import time
 
 
 # Button class
@@ -45,9 +47,52 @@ class Button:
                 start_game = True
 
         # Reset button no not being pressed
-        # if pygame.mouse.get_pressed()[0] == 0:
-        #     self.clicked = False
+        if pygame.mouse.get_pressed()[0] == 0:
+            self.clicked = False
 
         # Draw button
         surface.blit(self.image, (self.rect.x, self.rect.y))
         return start_game
+
+
+def draw_start(screen, alien):
+    # Load background image
+    background_img = pygame.image.load("start_screen.png").convert_alpha()
+    background_rect = background_img.get_rect()
+
+    # Set initial position for background image
+    background_rect.x = random.randint(0, screen.get_width() - background_rect.width)
+    background_rect.y = random.randint(0, screen.get_height() - background_rect.height)
+    speed_x = 1
+    speed_y = 1
+
+    screen.fill(0, 0, 0)
+
+    # Animate background
+    background_rect.x += speed_x
+    background_rect.y += speed_y
+
+    # Change direction if image hits boundary
+    if (
+        background_rect.x <= 0
+        or background_rect.x >= screen.get_width() - background_rect.width
+    ):
+        speed_x *= -1
+    if (
+        background_rect.y <= 0
+        or background_rect.y >= screen.get_height() - background_rect.height
+    ):
+        speed_y *= -1
+
+    # Draw background on screen
+    screen.blit(background_img, background_rect)
+
+    # Draw alien
+    alien.draw(screen)
+
+    # Draw start button and check if it's clicked
+    if start_button.draw(screen):
+        return True
+
+    pygame.display.update
+    pygame.time.Clock().tick(60)

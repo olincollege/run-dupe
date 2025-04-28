@@ -6,6 +6,7 @@ import start_screen
 # import button
 
 pygame.init()
+pygame.mouse.set_visible(True)
 
 # Create display window
 SCREEN_WIDTH = 800

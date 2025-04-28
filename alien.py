@@ -10,7 +10,8 @@ class Alien(pygame.sprite.Sprite):
     Add docstring
 
     Attributes:
-        images: A dictionary with keys that are strings for the image titles and values that load the strings of paths to the images.
+        images: A dictionary with keys that are strings for the image titles and
+        values that load the strings of paths to the images.
         image: An image to be displayed.
         rect: An object representing the character.
         x: An integer representing the characters current x position.
@@ -32,9 +33,6 @@ class Alien(pygame.sprite.Sprite):
         Args:
             x: An integer representing the x value of the character.
             y: An integer representing the y value of the character.
-
-        Attributes:
-
         """
         super().__init__()
         self.images = {
@@ -46,6 +44,7 @@ class Alien(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.x = x
         self.y = y
+        self.rect.topleft = (self.x, self.y)
 
         self.alive = True
         self.jumping = False
@@ -57,6 +56,11 @@ class Alien(pygame.sprite.Sprite):
         self.animation_timer = 0
 
     def press_keys(self, keys):
+        """_summary_
+
+        Args:
+            keys (_type_): _description_
+        """
         # No x movement
         self.velocity_x = 0
         # Detect if keys are pressed
@@ -77,7 +81,7 @@ class Alien(pygame.sprite.Sprite):
         self.on_ground = False
         self.jumping = True
 
-    def update(self):
+    def update(self, platforms):
         """
         Change location of character, detect if on ground, and run animation loop.
         """
@@ -88,11 +92,27 @@ class Alien(pygame.sprite.Sprite):
         self.velocity_y += self.gravity
         self.rect.y += self.velocity_y
 
+        # Check for collisions
+        for platform in platforms:
+            if self.rect.colliderect(platform.rect):
+                # If its also falling (positive y)
+                if self.velocity_y > 0:
+                    # Place alien on top of platform
+                    self.rect.bottom = platform.rect.top
+                    # Stop falling
+                    self.velocity_y = 0
+                    self.on_ground = True
+                    self.jumping = False
+
         # Check if on ground
         if self.rect.bottom >= 500:
             self.rect.bottom = 500
             self.velocity_y = 0
             self.on_ground = True
+
+        # Check if misses platform
+        if self.rect.y > 500 and not self.on_ground:
+            self.alive = False
 
         self.animate()
 
@@ -114,6 +134,7 @@ class Alien(pygame.sprite.Sprite):
                 else:
                     self.image = self.images["left"]
             self.animation_timer = current_time
+        self.animation_timer = 0
 
     def draw(self, screen):
         """
