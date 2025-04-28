@@ -36,7 +36,6 @@ class Button:
             _type_: _description_
         """
         # Get mouse position
-        start_game = False
         pos = pygame.mouse.get_pos()
 
         # Check mouse over button
@@ -44,7 +43,6 @@ class Button:
             # Check if button is pressed for the first time
             if pygame.mouse.get_pressed()[0] == 1 and not self.clicked:
                 self.clicked = True
-                start_game = True
 
         # Reset button no not being pressed
         if pygame.mouse.get_pressed()[0] == 0:
@@ -52,10 +50,19 @@ class Button:
 
         # Draw button
         surface.blit(self.image, (self.rect.x, self.rect.y))
-        return start_game
+        return self.clicked
 
 
 def draw_start(screen, alien):
+    """_summary_
+
+    Args:
+        screen (_type_): _description_
+        alien (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     # Load background image
     background_img = pygame.image.load("start_screen.png").convert_alpha()
     background_rect = background_img.get_rect()
