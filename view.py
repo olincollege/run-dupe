@@ -45,10 +45,11 @@ class Alien_View(pygame.sprite.Sprite):
 
 class Tunnel_View:
     def __init__(self):
-        pass
+        self.color = (66, 135, 245)
 
-    def draw(self, screen):
-        pass
+    def draw(self, platforms, screen):
+        for platform in platforms:
+            pygame.draw.rect(screen, self.color, platform.rect)
 
 
 class Start_Screen_View:

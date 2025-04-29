@@ -20,11 +20,10 @@ class Button:
             image: A string of the path to the image of the button.
         """
         self.image = image
-        self.rect = self.image.get_rect()
-        self.rect.topleft = (x, y)
+        self.rect = self.image.get_rect(topleft=(x, y))
         self.clicked = False
 
-    def draw_button(self, surface):
+    def draw_button(self, screen):
         """_summary_
 
         Args:
@@ -33,6 +32,8 @@ class Button:
         Returns:
             True if the button has been clicked, else returns False.
         """
+        screen.blit(self.image, self.rect)
+
         # Get mouse position
         pos = pygame.mouse.get_pos()
 
@@ -41,12 +42,10 @@ class Button:
             # Check if button is pressed for the first time
             if pygame.mouse.get_pressed()[0] == 1 and not self.clicked:
                 self.clicked = True
+                return True
 
         # Reset button no not being pressed
         if pygame.mouse.get_pressed()[0] == 0:
             self.clicked = False
 
-        # Draw button
-        surface.blit(self.image, (self.rect.x, self.rect.y))
-        if self.clicked:
-            return True
+        return False

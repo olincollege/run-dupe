@@ -1,3 +1,4 @@
+import random
 import pygame
 
 
@@ -63,6 +64,7 @@ class Alien_Controller(pygame.sprite.Sprite):
         self.rect.y += self.velocity_y
 
         # Check for collisions
+        self.on_ground = False
         for platform in platforms:
             if self.rect.colliderect(platform.rect):
                 # If its also falling (positive y)
@@ -75,22 +77,49 @@ class Alien_Controller(pygame.sprite.Sprite):
                     self.jumping = False
 
         # Check if on ground
-        if self.rect.bottom >= 500:
-            self.rect.bottom = 500
-            self.velocity_y = 0
-            self.on_ground = True
+        if self.rect.top > 600:  # screen height
+            self.alive = Falsei
 
         # Check if misses platform
         if self.rect.y > 500 and not self.on_ground:
             self.alive = False
 
 
+class Platform:
+    def __init__(self, x, y, width, height):
+        self.rect = pygame.Rect(x, y, width, height)
+
+
 class Tunnel_Controller:
     def __init__(self):
-        pass
+        self.platforms = []
+        self.scroll_speed = 3
+        self.platform_direction_rand = "right"
+        self.generate_platforms()
+
+    def generate_platforms(self):
+        for i in range(5):
+            x = 200 + i * 150
+            y = 450
+            width = 100
+            height = 20
+            self.platforms.append(Platform(x, y, width, height))
 
     def update(self):
-        pass
+        # Random if platform goes right or left
+        self.platform_direction_rand = random.choice(["right", "left"])
+
+        # Scroll platforms
+        for platform in self.platforms:
+            if self.platform_direction_rand == "right":
+                platform.rect.x -= self.scroll_speed
+            elif self.platform_direction_rand == "left":
+                platform.rect.x += self.scroll_speed
+
+        # Remove off screen platforms
+        self.platforms = [p for p in self.platforms if p.rect.right > 0]
+
+        return self.platforms
 
 
 class Start_Screen_Controller:
