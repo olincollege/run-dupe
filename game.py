@@ -79,7 +79,7 @@ class Game:
             self.alien.update(self.tunnel)
 
             # Draw everything
-            self.screen.fill(0, 0, 0)
+            self.screen.fill((0, 0, 0))
             self.tunnel.draw(self.screen)
             self.alien.draw(self.screen)
 

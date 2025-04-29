@@ -11,26 +11,27 @@ class Alien_View(pygame.sprite.Sprite):
         self.image = self.images["both"]
         self.rect = self.image.get_rect()
         self.animation_timer = 0
+        self.jumping = False
 
-    def animate(self):
+    def animate(self, controller):
         """
         Updates alien's graphic to one of three images to display running, jumping, and death.
         """
         # Define when the at rest image should be used
-        if not self.alive:
+        if not controller.alive:
             self.image = self.images["both"]
-        elif self.jumping:
+        elif controller.jumping:
             self.image = self.images["both"]
         # Otherwise switch between left and right leg forward every 200 ms
         else:
             current_time = pygame.time.get_ticks()
             if current_time - self.animation_timer > 200:
-                if self.image == self.images["left"]:
-                    self.image = self.images["right"]
-                else:
-                    self.image = self.images["left"]
-            self.animation_timer = current_time
-        self.animation_timer = 0
+                self.image = (
+                    self.images["right"]
+                    if self.image == self.images["left"]
+                    else self.images["left"]
+                )
+                self.animation_timer = current_time
 
     def draw(self, screen):
         """
@@ -43,24 +44,21 @@ class Alien_View(pygame.sprite.Sprite):
 
 
 class Tunnel_View:
-    pass
+    def __init__(self):
+        pass
+
+    def draw(self, screen):
+        pass
 
 
 class Start_Screen_View:
-    def __init__(self, x, y, image):
-        """_summary_
+    def __init__(self, background_img):
+        self.background_img = background_img
+        self.background_rect = self.background_img.get_rect()
+        self.speed_x = 0.2
+        self.speed_y = 0.2
 
-        Args:
-            x: An integer representing the x coordinate of the button.
-            x: An integer representing the y coordinate of the button.
-            image: A string of the path to the image of the button.
-        """
-        self.image = image
-        self.rect = self.image.get_rect()
-        self.rect.topleft = (x, y)
-        self.clicked = False
-
-    def draw_button(self, surface):
+    def draw(self, screen, alien_view, button):
         """_summary_
 
         Args:
@@ -70,55 +68,28 @@ class Start_Screen_View:
             True if the button has been clicked, else returns False.
         """
 
-        # Draw button
-        surface.blit(self.image, (self.rect.x, self.rect.y))
-        return self.clicked
+        # Animate background
+        self.background_rect.x += self.speed_x
+        self.background_rect.y += self.speed_y
 
+        # Change direction if image hits boundary
+        if (
+            self.background_rect.left <= 0
+            or self.background_rect.right >= screen.get_width()
+        ):
+            self.speed_x *= -1
+        if (
+            self.background_rect.top <= 0
+            or self.background_rect.bottom >= screen.get_height()
+        ):
+            self.speed_y *= -1
 
-def draw_start(
-    screen, alien, button, background_img, background_rect, speed_x, speed_y
-):
-    """_summary_
-
-    Args:
-        screen: A surface object representing the game window.
-        alien (_type_): _description_
-        button (_type_): _description_
-        background_img: An image to be displayed in the background.
-        background_rect (_type_): _description_
-        speed_x: An integer representing the speed in the x direction.
-        speed_y: An integer representing the speed in the y direction.
-
-    Returns:
-        _type_: _description_
-    """
-
-    # Animate background
-    background_rect.x += speed_x
-    background_rect.y += speed_y
-
-    # Change direction if image hits boundary
-    if (
-        background_rect.x <= 0
-        or background_rect.x >= screen.get_width() - background_rect.width
-    ):
-        speed_x *= -1
-    if (
-        background_rect.y <= 0
-        or background_rect.y >= screen.get_height() - background_rect.height
-    ):
-        speed_y *= -1
-
-    # Draw background on screen
-    screen.fill((0, 0, 0))
-    screen.blit(background_img, background_rect)
-
-    # Draw alien
-    alien.draw(screen)
-
-    # Draw button
-    clicked = button.draw_button(screen)
-
-    pygame.display.update
-
-    return clicked, speed_x, speed_y
+        # Draw everything
+        screen.fill((0, 0, 0))
+        screen.blit(self.background_img, self.background_rect)
+        alien_view.draw(screen)
+        clicked = button.draw_button(screen)
+        if clicked:
+            return True
+        pygame.display.update()
+        return False

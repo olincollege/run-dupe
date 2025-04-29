@@ -14,7 +14,7 @@ class Alien_Controller(pygame.sprite.Sprite):
 
         self.x = x
         self.y = y
-        self.rect.topleft = (self.x, self.y)
+        self.rect = pygame.Rect(self.x, self.y, 50, 50)
 
         self.alive = True
         self.jumping = False
@@ -86,7 +86,11 @@ class Alien_Controller(pygame.sprite.Sprite):
 
 
 class Tunnel_Controller:
-    pass
+    def __init__(self):
+        pass
+
+    def update(self):
+        pass
 
 
 class Start_Screen_Controller:
@@ -112,7 +116,4 @@ class Start_Screen_Controller:
             # Check if button is pressed for the first time
             if pygame.mouse.get_pressed()[0] == 1 and not self.clicked:
                 self.clicked = True
-
-        # Reset button no not being pressed
-        if pygame.mouse.get_pressed()[0] == 0:
-            self.clicked = False
+        return False

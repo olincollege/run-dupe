@@ -59,7 +59,8 @@ class Alien(pygame.sprite.Sprite):
         """_summary_
 
         Args:
-            keys (_type_): _description_
+            keys: A dictionary with keys that are integers for each key on the keyboard
+            and values a value of 1 if it is being pressed or 0 if it is not being pressed.
         """
         # No x movement
         self.velocity_x = 0
@@ -141,6 +142,6 @@ class Alien(pygame.sprite.Sprite):
         Draws character on screen using image.
 
         Args:
-            screen (_type_): _description_
+            screen: A surface object representing the game window.
         """
         screen.blit(self.image, self.rect)

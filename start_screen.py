@@ -28,10 +28,10 @@ class Button:
         """_summary_
 
         Args:
-            surface (_type_): _description_
+            surface: An image of the background to draw the button on.
 
         Returns:
-            _type_: _description_
+            True if the button has been clicked, else returns False.
         """
         # Get mouse position
         pos = pygame.mouse.get_pos()
@@ -48,39 +48,5 @@ class Button:
 
         # Draw button
         surface.blit(self.image, (self.rect.x, self.rect.y))
-        return self.clicked
-
-
-def draw_start(
-    screen, alien, button, background_img, background_rect, speed_x, speed_y
-):
-
-    # Animate background
-    background_rect.x += speed_x
-    background_rect.y += speed_y
-
-    # Change direction if image hits boundary
-    if (
-        background_rect.x <= 0
-        or background_rect.x >= screen.get_width() - background_rect.width
-    ):
-        speed_x *= -1
-    if (
-        background_rect.y <= 0
-        or background_rect.y >= screen.get_height() - background_rect.height
-    ):
-        speed_y *= -1
-
-    # Draw background on screen
-    screen.fill(0, 0, 0)
-    screen.blit(background_img, background_rect)
-
-    # Draw alien
-    alien.draw(screen)
-
-    # Draw button
-    clicked = button.draw_button(screen)
-
-    pygame.display.update
-
-    return clicked, speed_x, speed_y
+        if self.clicked:
+            return True
