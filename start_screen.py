@@ -4,9 +4,7 @@ Returns:
     _type_: _description_
 """
 
-import random
 import pygame
-import time
 
 
 # Button class
@@ -26,7 +24,7 @@ class Button:
         self.rect.topleft = (x, y)
         self.clicked = False
 
-    def draw(self, surface):
+    def draw_button(self, surface):
         """_summary_
 
         Args:
@@ -36,7 +34,6 @@ class Button:
             _type_: _description_
         """
         # Get mouse position
-        start_game = False
         pos = pygame.mouse.get_pos()
 
         # Check mouse over button
@@ -44,7 +41,6 @@ class Button:
             # Check if button is pressed for the first time
             if pygame.mouse.get_pressed()[0] == 1 and not self.clicked:
                 self.clicked = True
-                start_game = True
 
         # Reset button no not being pressed
         if pygame.mouse.get_pressed()[0] == 0:
@@ -52,21 +48,12 @@ class Button:
 
         # Draw button
         surface.blit(self.image, (self.rect.x, self.rect.y))
-        return start_game
+        return self.clicked
 
 
-def draw_start(screen, alien):
-    # Load background image
-    background_img = pygame.image.load("start_screen.png").convert_alpha()
-    background_rect = background_img.get_rect()
-
-    # Set initial position for background image
-    background_rect.x = random.randint(0, screen.get_width() - background_rect.width)
-    background_rect.y = random.randint(0, screen.get_height() - background_rect.height)
-    speed_x = 1
-    speed_y = 1
-
-    screen.fill(0, 0, 0)
+def draw_start(
+    screen, alien, button, background_img, background_rect, speed_x, speed_y
+):
 
     # Animate background
     background_rect.x += speed_x
@@ -85,14 +72,15 @@ def draw_start(screen, alien):
         speed_y *= -1
 
     # Draw background on screen
+    screen.fill(0, 0, 0)
     screen.blit(background_img, background_rect)
 
     # Draw alien
     alien.draw(screen)
 
-    # Draw start button and check if it's clicked
-    if start_button.draw(screen):
-        return True
+    # Draw button
+    clicked = button.draw_button(screen)
 
     pygame.display.update
-    pygame.time.Clock().tick(60)
+
+    return clicked, speed_x, speed_y
