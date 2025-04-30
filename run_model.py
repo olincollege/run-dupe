@@ -1,12 +1,12 @@
 """_summary_"""
 
 import pygame
-from view import AlienView, TunnelView, StartScreenView
-from controller import (
+from run_view import AlienView, TunnelView, StartScreenView
+from run_controller import (
     AlienController,
     TunnelController,
 )
-from start_screen import Button
+from run_start_screen import Button
 
 
 class Game:

@@ -4,33 +4,41 @@ Returns:
     _type_: _description_
 """
 
+# pylint: disable=too-few-public-methods
 import pygame
 
 
 # Button class
 class Button:
-    """_summary_"""
+    """
+    _summary_
 
-    def __init__(self, x, y, image):
+    Attributes:
+        image: A string representing the path to the image representing the button.
+        rect: An rectangle representing the button.
+        clicked: A boolean representing whether or not the button has been clicked.
+    """
+
+    def __init__(self, x_pos, y_pos, image):
         """_summary_
 
         Args:
-            x: An integer representing the x coordinate of the button.
-            x: An integer representing the y coordinate of the button.
+            x_val: An integer representing the x coordinate of the button.
+            y_val: An integer representing the y coordinate of the button.
             image: A string of the path to the image of the button.
         """
         self.image = image
-        self.rect = self.image.get_rect(topleft=(x, y))
+        self.rect = self.image.get_rect(topleft=(x_pos, y_pos))
         self.clicked = False
 
     def draw_button(self, screen):
         """_summary_
 
         Args:
-            surface: An image of the background to draw the button on.
+            screen: An image of the background to draw the button on.
 
         Returns:
-            True if the button has been clicked, else returns False.
+            A boolean of True if the button has been clicked, else returns False.
         """
         screen.blit(self.image, self.rect)
 
