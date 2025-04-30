@@ -50,13 +50,22 @@ class AlienView(pygame.sprite.Sprite):
                 )
                 self.animation_timer = current_time
 
-    def draw(self, screen):
+    def draw(self, screen, pit):
         """
         Draws character on screen using image.
 
         Args:
             screen: A surface object representing the game window.
         """
+
+        # Draw pit
+        pygame.draw.rect(
+            screen,
+            pygame.Color(50, 50, 50),
+            pygame.Rect(pit.x, pit.y, pit.width, pit.height),
+        )
+        pit.update()
+        # Draw Alien
         screen.blit(self.image, self.rect)
 
 
@@ -128,7 +137,6 @@ class StartScreenView:
         # Draw everything
         screen.fill((0, 0, 0))
         screen.blit(self.background_img, self.background_rect)
-        alien_view.draw(screen)
         clicked = button.draw_button(screen)
         if clicked:
             return True

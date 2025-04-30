@@ -1,10 +1,10 @@
 """_summary_"""
 
+import random
 import pygame
-from run_view import AlienView, TunnelView, StartScreenView
+from run_view import AlienView, StartScreenView
 from run_controller import (
     AlienController,
-    TunnelController,
 )
 from run_start_screen import Button
 
@@ -12,6 +12,9 @@ from run_start_screen import Button
 class Game:
     """
     Runs the main game loop.
+
+    Attributes:
+        start_screen and run: Booleans that represent the state of the game.
     """
 
     def __init__(self):
@@ -29,13 +32,14 @@ class Game:
         self.run = False
 
         # Alien
-        self.alien_controller = AlienController(375, 375)
+        self.alien_controller = AlienController(375, 375, 50, 50)
         self.alien_view = AlienView()
         self.alien_view.rect.topleft = self.alien_controller.rect.topleft
 
-        # Tunnel
-        self.tunnel_controller = TunnelController()
-        self.tunnel_view = TunnelView()
+        # Pit
+        self.pit = Pit(300, 0, 200, 10)
+        # self.tunnel_controller = TunnelController()
+        # self.tunnel_view = TunnelView()
 
         # Start button
         start_img = pygame.transform.scale_by(
@@ -59,7 +63,9 @@ class Game:
                     pygame.quit()
                     return
             clicked = self.start_screen_view.draw(
-                self.screen, self.alien_view, self.start_button
+                self.screen,
+                self.alien_view,
+                self.start_button,
             )
 
             if clicked:
@@ -84,8 +90,7 @@ class Game:
             self.alien_controller.press_keys(keys)
 
             # Update controller
-            platforms = self.tunnel_controller.update()
-            self.alien_controller.update(platforms)
+            self.alien_controller.update()
 
             # Update view
             self.alien_view.rect.topleft = self.alien_controller.rect.topleft
@@ -93,8 +98,7 @@ class Game:
 
             # Draw everything
             self.screen.fill((0, 0, 0))
-            self.tunnel_view.draw(platforms, self.screen)
-            self.alien_view.draw(self.screen)
+            self.alien_view.draw(self.screen, self.pit)
 
             pygame.display.update()
 
@@ -106,6 +110,37 @@ class Game:
         """
         If we want to add more levels
         """
+
+
+class Pit:
+    def __init__(self, x, y, width, height):
+        self.starting_xy_wh = (x, y, width, height)
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+        self._y_speed = 0.4
+        self._width_scaler = 0.2
+        self._height_scaler = 0.05
+        self._left_or_right = 0
+
+    def update(self):
+        # When pit leaves the screen reset position and dimensions
+        if self.y > 599:
+            self.x = self.starting_xy_wh[0]
+            self.y = self.starting_xy_wh[1]
+            self.width = self.starting_xy_wh[2]
+            self.height = self.starting_xy_wh[3]
+            # Random direction the pit goes
+            if random.randint(0, 100) < 50:
+                self._left_or_right = -1
+            else:
+                self._left_or_right = 1
+        else:
+            self.y += self._y_speed
+            self.x += self._left_or_right / 5
+            self.width += self._width_scaler
+            self.height += self._height_scaler
 
 
 if __name__ == "__main__":

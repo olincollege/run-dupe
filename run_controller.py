@@ -16,7 +16,7 @@ class AlienController(pygame.sprite.Sprite):
         pygame (_type_): _description_
     """
 
-    def __init__(self, x_pos, y_pos):
+    def __init__(self, x_pos, y_pos, width, height):
         """
         Constructs the alien as a sprite.
 
@@ -26,12 +26,14 @@ class AlienController(pygame.sprite.Sprite):
         """
         super().__init__()
 
-        self.rect = pygame.Rect(x_pos, y_pos, 50, 50)
+        self.width = width
+        self.height = height
+        self.rect = pygame.Rect(x_pos, y_pos, self.width, self.height)
 
         self.alive = True
         self.jumping = False
         self.on_ground = True
-        self.jump_strength = -15
+        self.jump_strength = -25
         self.velocity_x = 0
         self.velocity_y = 0
 
@@ -63,7 +65,7 @@ class AlienController(pygame.sprite.Sprite):
         self.on_ground = False
         self.jumping = True
 
-    def update(self, platforms):
+    def update(self):
         """
         Update the character to change location when keys are pressed,
         detect if its on ground, and detect if it dies.
@@ -75,25 +77,33 @@ class AlienController(pygame.sprite.Sprite):
         self.rect.x += self.velocity_x
 
         # Move up/down
-        gravity = 1
+        gravity = 1.2
         self.velocity_y += gravity
         self.rect.y += self.velocity_y
 
         # Check for collisions
         self.on_ground = False
-        for platform in platforms:
-            if self.rect.colliderect(platform.rect):
-                # If its also falling (positive y)
-                if self.velocity_y > 0:
-                    # Place alien on top of platform
-                    self.rect.bottom = platform.rect.top
-                    # Stop falling
-                    self.velocity_y = 0
-                    self.on_ground = True
-                    self.jumping = False
+        if self.rect.bottom == 500:
+            self.velocity_y = 0
+            self.on_ground = True
+            self.jumping = False
+            # for platform in platforms:
+            # if self.rect.colliderect(platform.rect):
+            #     # If its also falling (positive y)
+            #     if self.velocity_y > 0:
+            #         # Place alien on top of platform
+            #         self.rect.bottom = platform.rect.top
+            #         # Stop falling
+            #         self.velocity_y = 0
+            #         self.on_ground = True
+            #         self.jumping = False
 
-        # Check if on ground
-        if self.rect.top > 600:  # screen height
+        # Check if character leaves the screen
+        if (
+            self.rect.top > 600
+            or int(self.rect.left + self.width / 2) < 0
+            or int(self.rect.right - self.width / 2) > 800
+        ):
             self.alive = False
 
         # Check if misses platform
