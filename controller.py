@@ -1,32 +1,43 @@
+"""_summary_
+
+Returns:
+    _type_: _description_
+"""
+
 import random
 import pygame
 
 
-class Alien_Controller(pygame.sprite.Sprite):
-    def __init__(self, x, y):
+# pylint: disable=too-few-public-methods
+class AlienController(pygame.sprite.Sprite):
+    """_summary_
+
+    Args:
+        pygame (_type_): _description_
+    """
+
+    def __init__(self, x_pos, y_pos):
         """
         Constructs the alien as a sprite.
 
         Args:
-            x: An integer representing the x value of the character.
-            y: An integer representing the y value of the character.
+            x_pos: An integer representing the x value of the character.
+            y_pos: An integer representing the y value of the character.
         """
         super().__init__()
 
-        self.x = x
-        self.y = y
-        self.rect = pygame.Rect(self.x, self.y, 50, 50)
+        self.rect = pygame.Rect(x_pos, y_pos, 50, 50)
 
         self.alive = True
         self.jumping = False
         self.on_ground = True
         self.jump_strength = -15
-        self.gravity = 1
         self.velocity_x = 0
         self.velocity_y = 0
 
     def press_keys(self, keys):
-        """_summary_
+        """
+        Collects data of which keys have been pressed.
 
         Args:
             keys: A dictionary with keys that are integers for each key on the keyboard
@@ -46,7 +57,7 @@ class Alien_Controller(pygame.sprite.Sprite):
 
     def jump(self):
         """
-        Makes the alien jumping by changing it's y position.
+        Makes sets up the alien to jump.
         """
         self.velocity_y = self.jump_strength
         self.on_ground = False
@@ -54,13 +65,18 @@ class Alien_Controller(pygame.sprite.Sprite):
 
     def update(self, platforms):
         """
-        Change location of character, detect if on ground, and run animation loop.
+        Update the character to change location when keys are pressed,
+        detect if its on ground, and detect if it dies.
+
+        Args:
+            platforms: A list representing the positions of all the platforms.
         """
         # Move on left/right
         self.rect.x += self.velocity_x
 
         # Move up/down
-        self.velocity_y += self.gravity
+        gravity = 1
+        self.velocity_y += gravity
         self.rect.y += self.velocity_y
 
         # Check for collisions
@@ -78,7 +94,7 @@ class Alien_Controller(pygame.sprite.Sprite):
 
         # Check if on ground
         if self.rect.top > 600:  # screen height
-            self.alive = Falsei
+            self.alive = False
 
         # Check if misses platform
         if self.rect.y > 500 and not self.on_ground:
@@ -86,11 +102,28 @@ class Alien_Controller(pygame.sprite.Sprite):
 
 
 class Platform:
-    def __init__(self, x, y, width, height):
-        self.rect = pygame.Rect(x, y, width, height)
+    """
+    Creates one platform.
+    """
+
+    def __init__(self, x_pos, y_pos, width, height):
+        """
+        Constructs a platform.
+
+        Args:
+            x_pos: An integer representing the x location of the platform.
+            y_pos: An integer representing the y location of the platform.
+            width: An integer representing the width of the platform
+            height: An integer representing the height of the platform
+        """
+        self.rect = pygame.Rect(x_pos, y_pos, width, height)
 
 
-class Tunnel_Controller:
+class TunnelController:
+    """
+    Creates the platforms for the level.
+    """
+
     def __init__(self):
         self.platforms = []
         self.scroll_speed = 3
@@ -98,14 +131,22 @@ class Tunnel_Controller:
         self.generate_platforms()
 
     def generate_platforms(self):
+        """
+        Creates multiple platforms.
+        """
         for i in range(5):
-            x = 200 + i * 150
-            y = 450
+            x_pos = 200 + i * 150
+            y_pos = 450
             width = 100
             height = 20
-            self.platforms.append(Platform(x, y, width, height))
+            self.platforms.append(Platform(x_pos, y_pos, width, height))
 
     def update(self):
+        """_summary_
+
+        Returns:
+            A list of the positions of the platforms.
+        """
         # Random if platform goes right or left
         self.platform_direction_rand = random.choice(["right", "left"])
 
@@ -122,13 +163,16 @@ class Tunnel_Controller:
         return self.platforms
 
 
-class Start_Screen_Controller:
+class StartScreenController:
+    """
+    Sets up the start screen with the start button.
+    """
+
     def __init__(self, image):
-        """_summary_
+        """
+        Sets up image in pygame format.
 
         Args:
-            x: An integer representing the x coordinate of the button.
-            x: An integer representing the y coordinate of the button.
             image: A string of the path to the image of the button.
         """
         self.image = image
@@ -136,7 +180,13 @@ class Start_Screen_Controller:
         self.clicked = False
 
     def button_click(self):
-        """_summary_"""
+        """
+        Detects and handles if the button has been clicked.
+
+        Returns:
+            A boolean of True if the button has been clicked, else returns False.
+        """
+
         # Get mouse position
         pos = pygame.mouse.get_pos()
 

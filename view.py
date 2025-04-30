@@ -1,7 +1,21 @@
+"""_summary_
+
+Returns:
+    _type_: _description_
+"""
+
 import pygame
 
+# pylint: disable=too-few-public-methods
 
-class Alien_View(pygame.sprite.Sprite):
+
+class AlienView(pygame.sprite.Sprite):
+    """_summary_
+
+    Args:
+        pygame (_type_): _description_
+    """
+
     def __init__(self):
         self.images = {
             "both": pygame.image.load("character_images/both_legs.png"),
@@ -15,7 +29,10 @@ class Alien_View(pygame.sprite.Sprite):
 
     def animate(self, controller):
         """
-        Updates alien's graphic to one of three images to display running, jumping, and death.
+        Updates the alien's graphic to one of three images to display running, jumping, and death.
+
+        Args:
+            controller: The class that acts as the controller for the alien.
         """
         # Define when the at rest image should be used
         if not controller.alive:
@@ -43,17 +60,38 @@ class Alien_View(pygame.sprite.Sprite):
         screen.blit(self.image, self.rect)
 
 
-class Tunnel_View:
+class TunnelView:
+    """
+    Draws the platforms.
+    """
+
     def __init__(self):
         self.color = (66, 135, 245)
 
     def draw(self, platforms, screen):
+        """
+        Draws the platforms.
+
+        Args:
+            platforms: A list representing the positions of all the platforms.
+            screen: A surface object representing the game window.
+        """
         for platform in platforms:
             pygame.draw.rect(screen, self.color, platform.rect)
 
 
-class Start_Screen_View:
+class StartScreenView:
+    """
+    Draws the start screen and button.
+    """
+
     def __init__(self, background_img):
+        """_
+        Initializes the variables for the start screen.
+
+        Args:
+            background_img: A string representing the path to the image for the background.
+        """
         self.background_img = background_img
         self.background_rect = self.background_img.get_rect()
         self.speed_x = 0.2
@@ -63,10 +101,12 @@ class Start_Screen_View:
         """_summary_
 
         Args:
-            surface: An image of the background to draw the button on.
+            screen: A surface object representing the game window.
+            alien_view: The class that acts as the view for the alien.
+            button: The class that acts as the view for the start button.
 
         Returns:
-            True if the button has been clicked, else returns False.
+            A boolean of True if the button has been clicked, else returns False.
         """
 
         # Animate background

@@ -1,19 +1,19 @@
+"""_summary_"""
+
 import pygame
-from view import Alien_View, Tunnel_View, Start_Screen_View
+from view import AlienView, TunnelView, StartScreenView
 from controller import (
-    Alien_Controller,
-    Tunnel_Controller,
-    Start_Screen_Controller,
-    Platform,
+    AlienController,
+    TunnelController,
 )
 from start_screen import Button
 
-"""
-Add docstring
-"""
-
 
 class Game:
+    """
+    Runs the main game loop.
+    """
+
     def __init__(self):
         pygame.init()
 
@@ -29,13 +29,13 @@ class Game:
         self.run = False
 
         # Alien
-        self.alien_controller = Alien_Controller(375, 375)
-        self.alien_view = Alien_View()
+        self.alien_controller = AlienController(375, 375)
+        self.alien_view = AlienView()
         self.alien_view.rect.topleft = self.alien_controller.rect.topleft
 
         # Tunnel
-        self.tunnel_controller = Tunnel_Controller()
-        self.tunnel_view = Tunnel_View()
+        self.tunnel_controller = TunnelController()
+        self.tunnel_view = TunnelView()
 
         # Start button
         start_img = pygame.transform.scale_by(
@@ -45,9 +45,12 @@ class Game:
 
         # Start background image
         background_img = pygame.image.load("start_screen.png").convert_alpha()
-        self.start_screen_view = Start_Screen_View(background_img)
+        self.start_screen_view = StartScreenView(background_img)
 
     def main_loop(self):
+        """
+        Runs the main game loop.
+        """
         # Start screen
         while self.start_screen:
             # To close the game
@@ -101,9 +104,8 @@ class Game:
 
     def update_level(self):
         """
-        Add docstring
+        If we want to add more levels
         """
-        pass
 
 
 if __name__ == "__main__":
