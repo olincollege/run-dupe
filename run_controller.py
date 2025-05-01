@@ -4,7 +4,6 @@ Returns:
     _type_: _description_
 """
 
-import random
 import pygame
 
 
@@ -35,7 +34,7 @@ class AlienController(pygame.sprite.Sprite):
         self.alive = True
         self.jumping = False
         self.on_ground = True
-        self.jump_strength = -25
+        self.jump_strength = -20
         self.velocity_x = 0
         self.velocity_y = 0
 
@@ -79,13 +78,12 @@ class AlienController(pygame.sprite.Sprite):
             pit and False if the character is dead and has fallen into the pit.
         """
         if (
-            pit.y_pos == 500
+            pit.y_pos == 400
             and pit.x_pos < self.rect.x + 10
             and pit.x_pos + 200 > self.rect.x + 10
             and not self.jumping
         ):
             self.alive = False
-            print("if statement")
         return self.alive
 
     def update(self):
@@ -97,19 +95,11 @@ class AlienController(pygame.sprite.Sprite):
         self.rect.x += self.velocity_x
 
         # Move up/down
-        gravity = 1.2
+        gravity = 0.5
         self.velocity_y += gravity
         self.rect.y += self.velocity_y
         self.jumping = False
 
-        # Check for collisions
-        # self.on_ground = False
-        # if self.rect.bottom == 500:
-        #     self.velocity_y = 0
-        #     self.on_ground = True
-        #     self.jumping = False
-
-        # Check if character leaves the screen
         if (
             self.rect.top > 600
             or int(self.rect.left + self.width / 2) < 0
@@ -117,45 +107,41 @@ class AlienController(pygame.sprite.Sprite):
         ):
             self.alive = False
 
-        if self.rect.bottom > 500:
-            self.rect.bottom = 500
+        if self.rect.bottom > 400:
+            self.rect.bottom = 400
             self.on_ground = True
 
-        # Check if misses platform
-        if self.rect.y > 500 and not self.on_ground:
-            self.alive = False
 
+# class StartScreenController:
+#     """
+#     Sets up the start screen with the start button.
+#     """
 
-class StartScreenController:
-    """
-    Sets up the start screen with the start button.
-    """
+#     def __init__(self, image):
+#         """
+#         Sets up image in pygame format.
 
-    def __init__(self, image):
-        """
-        Sets up image in pygame format.
+#         Args:
+#             image: A string of the path to the image of the button.
+#         """
+#         self.image = image
+#         self.rect = self.image.get_rect()
+#         self.clicked = False
 
-        Args:
-            image: A string of the path to the image of the button.
-        """
-        self.image = image
-        self.rect = self.image.get_rect()
-        self.clicked = False
+#     def button_click(self):
+#         """
+#         Detects and handles if the button has been clicked.
 
-    def button_click(self):
-        """
-        Detects and handles if the button has been clicked.
+#         Returns:
+#             A boolean of True if the button has been clicked, else returns False.
+#         """
 
-        Returns:
-            A boolean of True if the button has been clicked, else returns False.
-        """
+#         # Get mouse position
+#         pos = pygame.mouse.get_pos()
 
-        # Get mouse position
-        pos = pygame.mouse.get_pos()
-
-        # Check mouse over button
-        if self.rect.collidepoint(pos):
-            # Check if button is pressed for the first time
-            if pygame.mouse.get_pressed()[0] == 1 and not self.clicked:
-                self.clicked = True
-        return False
+#         # Check mouse over button
+#         if self.rect.collidepoint(pos):
+#             # Check if button is pressed for the first time
+#             if pygame.mouse.get_pressed()[0] == 1 and not self.clicked:
+#                 self.clicked = True
+#         return False

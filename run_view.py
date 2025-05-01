@@ -10,10 +10,11 @@ import pygame
 
 
 class AlienView(pygame.sprite.Sprite):
-    """_summary_
+    """
+    Draws the alien at the location of the controller.
 
     Args:
-        pygame (_type_): _description_
+        pygame.sprite.Sprite: A class representing a sprite.
     """
 
     def __init__(self):
@@ -56,6 +57,7 @@ class AlienView(pygame.sprite.Sprite):
 
         Args:
             screen: A surface object representing the game window.
+            pit: A class that creates the pit.
         """
 
         # Draw pit
@@ -86,7 +88,7 @@ class StartScreenView:
         self.speed_x = 0.2
         self.speed_y = 0.2
 
-    def draw(self, screen, alien_view, button):
+    def draw(self, screen, button):
         """_summary_
 
         Args:

@@ -3,9 +3,7 @@
 import random
 import pygame
 from run_view import AlienView, StartScreenView
-from run_controller import (
-    AlienController,
-)
+from run_controller import AlienController
 from run_start_screen import Button
 
 
@@ -62,7 +60,6 @@ class Game:
                     return
             clicked = self.start_screen_view.draw(
                 self.screen,
-                self.alien_view,
                 self.start_button,
             )
 
@@ -101,7 +98,7 @@ class Game:
 
             # Check for death
             if not self.alien_controller.alive:
-                self.run = False
+                pass
 
             pygame.display.update()
 
@@ -116,18 +113,43 @@ class Game:
 
 
 class Pit:
+    """
+    Creates a pit.
+
+    Attributes:
+        x_pos, y_pos: Integers representing the x and y positions of the pit.
+        width, height: Integers representing the width and height of the pit.
+        __y_speed: A float representing the speed that the pit approaches the character.
+        _width_scalar, _height_scalar: A float representing the rate that the width and
+        height of the pit is growing as it approaches the character.
+        _left_or_right: An integer representing which direction the pit should approach
+        the character from, -1 for left and 1 for right.
+    """
+
     def __init__(self, x_pos, y_pos, width, height):
+        """
+        Initializes the variables to create the pit.
+
+        Args:
+            x_pos: An integer representing the x position of the pit.
+            y_pos: An integer representing the y position of the pit.
+            width: An integer representing the width of the pit.
+            height: An integer representing the height of the pit.
+        """
         self.starting_xy_wh = (x_pos, y_pos, width, height)
         self.x_pos = x_pos
         self.y_pos = y_pos
         self.width = width
         self.height = height
-        self._y_speed = 0.5
+        self._y_speed = 3.5
         self._width_scaler = 0.2
-        self._height_scaler = 0.1
+        self._height_scaler = 0.4
         self._left_or_right = 0
 
     def update(self):
+        """
+        Updates the position and dimensions of the pit as it approaches the character.
+        """
         # When pit leaves the screen reset position and dimensions
         if self.y_pos > 599:
             self.x_pos = self.starting_xy_wh[0]
