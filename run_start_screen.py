@@ -17,7 +17,7 @@ class Button:
 
     Attributes:
         image: A string representing the path to the image representing the button.
-            hover_image: A modified version of the orignal image.
+        hover_image: A modified version of the original image.
         rect: An rectangle representing the button.
         clicked: A boolean representing whether or not the button has been clicked.
     """

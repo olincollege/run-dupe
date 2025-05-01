@@ -12,7 +12,15 @@ class Game:
     Runs the main game loop.
 
     Attributes:
+        screen and clock: Pygame classes that set up the game.
         start_screen and run: Booleans that represent the state of the game.
+        alien_controller and alien_view: Classes that represent the controller
+        and view the game.
+        level and pit_speed: Integers that represent the level and the
+        speed that the pits approach the character.
+        pit: A class that creates the pits.
+        start_button and start_screen_view: Classes that represent the start button
+        and the view of the start screen.
     """
 
     def __init__(self):
@@ -25,7 +33,7 @@ class Game:
         self.screen = pygame.display.set_mode((800, 600))
         self.clock = pygame.time.Clock()
 
-        # Set up start screen
+        # Which screen is showing
         self.start_screen = True
         self.run = False
 
@@ -35,7 +43,10 @@ class Game:
         self.alien_view.rect.topleft = self.alien_controller.rect.topleft
 
         # Pit
-        self.pit = Pit(300, 0, 200, 10)
+        self.level = 0
+        self.pit_speed = 3.5
+        self.pit = Pit(300, 0, 200, 10, self.pit_speed, self.level)
+        self.update_level()
 
         # Start button
         start_img = pygame.transform.scale_by(
@@ -86,7 +97,7 @@ class Game:
 
             # Update controller
             self.alien_controller.update()
-            self.alien_controller.check_pitfall(self.screen, self.pit)
+            self.alien_controller.check_pitfall(self.screen)
 
             # Update view
             self.alien_view.rect.topleft = self.alien_controller.rect.topleft
@@ -100,6 +111,11 @@ class Game:
             if not self.alien_controller.alive:
                 pass
 
+            # Next level
+            if self.pit.pit_num == 5:
+                self.pit.pit_num = 0
+                self.update_level()
+
             pygame.display.update()
 
             # Set framerate
@@ -108,8 +124,14 @@ class Game:
 
     def update_level(self):
         """
-        If we want to add more levels
+        Changes speed that platforms approach at each level.
         """
+
+        self.level += 1
+        print(self.level)
+        print("new level")
+        self.pit_speed += 3
+        print(self.pit_speed)
 
 
 class Pit:
@@ -124,9 +146,10 @@ class Pit:
         height of the pit is growing as it approaches the character.
         _left_or_right: An integer representing which direction the pit should approach
         the character from, -1 for left and 1 for right.
+        pit_num: An integer representing the number of pits that have been created.
     """
 
-    def __init__(self, x_pos, y_pos, width, height):
+    def __init__(self, x_pos, y_pos, width, height, speed, level):
         """
         Initializes the variables to create the pit.
 
@@ -135,16 +158,18 @@ class Pit:
             y_pos: An integer representing the y position of the pit.
             width: An integer representing the width of the pit.
             height: An integer representing the height of the pit.
+            level: An integer representing the current level.
         """
         self.starting_xy_wh = (x_pos, y_pos, width, height)
         self.x_pos = x_pos
         self.y_pos = y_pos
         self.width = width
-        self.height = height
-        self._y_speed = 3.5
+        self.height = height * level
+        self._y_speed = speed
         self._width_scaler = 0.2
         self._height_scaler = 0.4
         self._left_or_right = 0
+        self.pit_num = 0
 
     def update(self):
         """
@@ -152,6 +177,7 @@ class Pit:
         """
         # When pit leaves the screen reset position and dimensions
         if self.y_pos > 599:
+            self.pit_num += 1
             self.x_pos = self.starting_xy_wh[0]
             self.y_pos = self.starting_xy_wh[1]
             self.width = self.starting_xy_wh[2]
@@ -166,7 +192,6 @@ class Pit:
             self.x_pos += self._left_or_right / 5
             self.width += self._width_scaler
             self.height += self._height_scaler
-        # print(self.x_pos, self.y_pos)
 
 
 if __name__ == "__main__":

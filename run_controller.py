@@ -12,7 +12,14 @@ class AlienController(pygame.sprite.Sprite):
     """_summary_
 
     Args:
-        pygame (_type_): _description_
+        pygame.sprite.Sprite: A class representing the characteristics of a sprite.
+
+
+    Attributes:
+        width and height: Integers representing the width and height of the character.
+        rect: A surface object representing the character.
+        alive, jumping, and on_ground: Booleans representing whether the character is alive, jumping, or on the ground.
+        velocity_x and velocity_y: Integers representing the characters x and y velocities.
     """
 
     def __init__(self, x_pos, y_pos, width, height):
@@ -34,7 +41,6 @@ class AlienController(pygame.sprite.Sprite):
         self.alive = True
         self.jumping = False
         self.on_ground = True
-        self.jump_strength = -20
         self.velocity_x = 0
         self.velocity_y = 0
 
@@ -62,31 +68,21 @@ class AlienController(pygame.sprite.Sprite):
         """
         Makes sets up the alien to jump.
         """
-        self.velocity_y = self.jump_strength
+        self.velocity_y = -20
         self.on_ground = False
         self.jumping = True
 
-    def check_pitfall(self, surface, pit):
+    def check_pitfall(self, surface):
         """
         Checks if the character has fallen into the pit.
 
         Args:
-            pit: A class representing the creation and location of the pits.
+            surface: A surface object representing the game window.
 
         Returns:
             A boolean, True if the character is alive and has not fallen into the
             pit and False if the character is dead and has fallen into the pit.
         """
-        # if (
-        #     pit.y_pos == 400
-        #     and pit.x_pos < self.rect.x + 10
-        #     and pit.x_pos + 200 > self.rect.x + 10
-        #     and not self.jumping
-        #     and self.on_ground
-        # ):
-        #     self.alive = False
-        #     print("dead hehe")
-        # return self.alive
 
         if self.on_ground and surface.get_at(((self.rect.x), self.rect.bottom)) == (
             50,
@@ -96,6 +92,18 @@ class AlienController(pygame.sprite.Sprite):
             self.alive = False
             print("dead hehe")
         return self.alive
+
+    # Not using rn
+    def check_next_level(self, surface):
+        """
+        Checks if the character should move onto the nextlevel.
+
+        Args:
+            surface: A surface object representing the game window.
+        """
+        if surface.get_at(self.rect) == (0, 0, 255):
+            self.alive = False
+            print("next level")
 
     def update(self):
         """
@@ -122,38 +130,3 @@ class AlienController(pygame.sprite.Sprite):
             self.rect.bottom = 400
             self.on_ground = True
             self.jumping = False
-
-
-# class StartScreenController:
-#     """
-#     Sets up the start screen with the start button.
-#     """
-
-#     def __init__(self, image):
-#         """
-#         Sets up image in pygame format.
-
-#         Args:
-#             image: A string of the path to the image of the button.
-#         """
-#         self.image = image
-#         self.rect = self.image.get_rect()
-#         self.clicked = False
-
-#     def button_click(self):
-#         """
-#         Detects and handles if the button has been clicked.
-
-#         Returns:
-#             A boolean of True if the button has been clicked, else returns False.
-#         """
-
-#         # Get mouse position
-#         pos = pygame.mouse.get_pos()
-
-#         # Check mouse over button
-#         if self.rect.collidepoint(pos):
-#             # Check if button is pressed for the first time
-#             if pygame.mouse.get_pressed()[0] == 1 and not self.clicked:
-#                 self.clicked = True
-#         return False
