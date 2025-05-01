@@ -66,7 +66,7 @@ class AlienController(pygame.sprite.Sprite):
         self.on_ground = False
         self.jumping = True
 
-    def check_pitfall(self, pit):
+    def check_pitfall(self, surface, pit):
         """
         Checks if the character has fallen into the pit.
 
@@ -77,13 +77,24 @@ class AlienController(pygame.sprite.Sprite):
             A boolean, True if the character is alive and has not fallen into the
             pit and False if the character is dead and has fallen into the pit.
         """
-        if (
-            pit.y_pos == 400
-            and pit.x_pos < self.rect.x + 10
-            and pit.x_pos + 200 > self.rect.x + 10
-            and not self.jumping
+        # if (
+        #     pit.y_pos == 400
+        #     and pit.x_pos < self.rect.x + 10
+        #     and pit.x_pos + 200 > self.rect.x + 10
+        #     and not self.jumping
+        #     and self.on_ground
+        # ):
+        #     self.alive = False
+        #     print("dead hehe")
+        # return self.alive
+
+        if self.on_ground and surface.get_at(((self.rect.x), self.rect.bottom)) == (
+            50,
+            50,
+            50,
         ):
             self.alive = False
+            print("dead hehe")
         return self.alive
 
     def update(self):
@@ -98,7 +109,7 @@ class AlienController(pygame.sprite.Sprite):
         gravity = 0.5
         self.velocity_y += gravity
         self.rect.y += self.velocity_y
-        self.jumping = False
+        self.jumping = True
 
         if (
             self.rect.top > 600
@@ -110,6 +121,7 @@ class AlienController(pygame.sprite.Sprite):
         if self.rect.bottom > 400:
             self.rect.bottom = 400
             self.on_ground = True
+            self.jumping = False
 
 
 # class StartScreenController:

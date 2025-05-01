@@ -86,7 +86,7 @@ class Game:
 
             # Update controller
             self.alien_controller.update()
-            self.alien_controller.check_pitfall(self.pit)
+            self.alien_controller.check_pitfall(self.screen, self.pit)
 
             # Update view
             self.alien_view.rect.topleft = self.alien_controller.rect.topleft
@@ -166,6 +166,7 @@ class Pit:
             self.x_pos += self._left_or_right / 5
             self.width += self._width_scaler
             self.height += self._height_scaler
+        # print(self.x_pos, self.y_pos)
 
 
 if __name__ == "__main__":
