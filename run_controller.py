@@ -23,6 +23,8 @@ class AlienController(pygame.sprite.Sprite):
         Args:
             x_pos: An integer representing the x value of the character.
             y_pos: An integer representing the y value of the character.
+            width: An integer representing the width of the character.
+            height: An integer representing the height of the character.
         """
         super().__init__()
 
@@ -65,13 +67,31 @@ class AlienController(pygame.sprite.Sprite):
         self.on_ground = False
         self.jumping = True
 
+    def check_pitfall(self, pit):
+        """
+        Checks if the character has fallen into the pit.
+
+        Args:
+            pit: A class representing the creation and location of the pits.
+
+        Returns:
+            A boolean, True if the character is alive and has not fallen into the
+            pit and False if the character is dead and has fallen into the pit.
+        """
+        if (
+            pit.y_pos == 500
+            and pit.x_pos < self.rect.x + 10
+            and pit.x_pos + 200 > self.rect.x + 10
+            and not self.jumping
+        ):
+            self.alive = False
+            print("if statement")
+        return self.alive
+
     def update(self):
         """
         Update the character to change location when keys are pressed,
         detect if its on ground, and detect if it dies.
-
-        Args:
-            platforms: A list representing the positions of all the platforms.
         """
         # Move on left/right
         self.rect.x += self.velocity_x
@@ -80,23 +100,14 @@ class AlienController(pygame.sprite.Sprite):
         gravity = 1.2
         self.velocity_y += gravity
         self.rect.y += self.velocity_y
+        self.jumping = False
 
         # Check for collisions
-        self.on_ground = False
-        if self.rect.bottom == 500:
-            self.velocity_y = 0
-            self.on_ground = True
-            self.jumping = False
-            # for platform in platforms:
-            # if self.rect.colliderect(platform.rect):
-            #     # If its also falling (positive y)
-            #     if self.velocity_y > 0:
-            #         # Place alien on top of platform
-            #         self.rect.bottom = platform.rect.top
-            #         # Stop falling
-            #         self.velocity_y = 0
-            #         self.on_ground = True
-            #         self.jumping = False
+        # self.on_ground = False
+        # if self.rect.bottom == 500:
+        #     self.velocity_y = 0
+        #     self.on_ground = True
+        #     self.jumping = False
 
         # Check if character leaves the screen
         if (
@@ -106,71 +117,13 @@ class AlienController(pygame.sprite.Sprite):
         ):
             self.alive = False
 
+        if self.rect.bottom > 500:
+            self.rect.bottom = 500
+            self.on_ground = True
+
         # Check if misses platform
         if self.rect.y > 500 and not self.on_ground:
             self.alive = False
-
-
-class Platform:
-    """
-    Creates one platform.
-    """
-
-    def __init__(self, x_pos, y_pos, width, height):
-        """
-        Constructs a platform.
-
-        Args:
-            x_pos: An integer representing the x location of the platform.
-            y_pos: An integer representing the y location of the platform.
-            width: An integer representing the width of the platform
-            height: An integer representing the height of the platform
-        """
-        self.rect = pygame.Rect(x_pos, y_pos, width, height)
-
-
-class TunnelController:
-    """
-    Creates the platforms for the level.
-    """
-
-    def __init__(self):
-        self.platforms = []
-        self.scroll_speed = 3
-        self.platform_direction_rand = "right"
-        self.generate_platforms()
-
-    def generate_platforms(self):
-        """
-        Creates multiple platforms.
-        """
-        for i in range(5):
-            x_pos = 200 + i * 150
-            y_pos = 450
-            width = 100
-            height = 20
-            self.platforms.append(Platform(x_pos, y_pos, width, height))
-
-    def update(self):
-        """_summary_
-
-        Returns:
-            A list of the positions of the platforms.
-        """
-        # Random if platform goes right or left
-        self.platform_direction_rand = random.choice(["right", "left"])
-
-        # Scroll platforms
-        for platform in self.platforms:
-            if self.platform_direction_rand == "right":
-                platform.rect.x -= self.scroll_speed
-            elif self.platform_direction_rand == "left":
-                platform.rect.x += self.scroll_speed
-
-        # Remove off screen platforms
-        self.platforms = [p for p in self.platforms if p.rect.right > 0]
-
-        return self.platforms
 
 
 class StartScreenController:

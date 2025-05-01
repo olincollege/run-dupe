@@ -62,31 +62,11 @@ class AlienView(pygame.sprite.Sprite):
         pygame.draw.rect(
             screen,
             pygame.Color(50, 50, 50),
-            pygame.Rect(pit.x, pit.y, pit.width, pit.height),
+            pygame.Rect(pit.x_pos, pit.y_pos, pit.width, pit.height),
         )
         pit.update()
         # Draw Alien
         screen.blit(self.image, self.rect)
-
-
-class TunnelView:
-    """
-    Draws the platforms.
-    """
-
-    def __init__(self):
-        self.color = (66, 135, 245)
-
-    def draw(self, platforms, screen):
-        """
-        Draws the platforms.
-
-        Args:
-            platforms: A list representing the positions of all the platforms.
-            screen: A surface object representing the game window.
-        """
-        for platform in platforms:
-            pygame.draw.rect(screen, self.color, platform.rect)
 
 
 class StartScreenView:

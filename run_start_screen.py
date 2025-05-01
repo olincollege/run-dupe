@@ -6,6 +6,9 @@ Returns:
 
 import pygame
 
+# To avoid pylint errors with pygame
+# pylint: disable=no-member
+
 
 # Button class
 class Button:
@@ -32,7 +35,7 @@ class Button:
         self.rect = self.image.get_rect(topleft=(x_pos, y_pos))
         self.clicked = False
 
-    def _hover_button(self, image, factor=1.3):
+    def _hover_button(self, image):
         # Creates a copy of the original image
         hover_image = image.copy()
 

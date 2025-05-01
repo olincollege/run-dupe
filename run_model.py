@@ -38,8 +38,6 @@ class Game:
 
         # Pit
         self.pit = Pit(300, 0, 200, 10)
-        # self.tunnel_controller = TunnelController()
-        # self.tunnel_view = TunnelView()
 
         # Start button
         start_img = pygame.transform.scale_by(
@@ -91,6 +89,7 @@ class Game:
 
             # Update controller
             self.alien_controller.update()
+            self.alien_controller.check_pitfall(self.pit)
 
             # Update view
             self.alien_view.rect.topleft = self.alien_controller.rect.topleft
@@ -99,6 +98,10 @@ class Game:
             # Draw everything
             self.screen.fill((0, 0, 0))
             self.alien_view.draw(self.screen, self.pit)
+
+            # Check for death
+            if not self.alien_controller.alive:
+                self.run = False
 
             pygame.display.update()
 
@@ -113,22 +116,22 @@ class Game:
 
 
 class Pit:
-    def __init__(self, x, y, width, height):
-        self.starting_xy_wh = (x, y, width, height)
-        self.x = x
-        self.y = y
+    def __init__(self, x_pos, y_pos, width, height):
+        self.starting_xy_wh = (x_pos, y_pos, width, height)
+        self.x_pos = x_pos
+        self.y_pos = y_pos
         self.width = width
         self.height = height
-        self._y_speed = 0.4
+        self._y_speed = 0.5
         self._width_scaler = 0.2
-        self._height_scaler = 0.05
+        self._height_scaler = 0.1
         self._left_or_right = 0
 
     def update(self):
         # When pit leaves the screen reset position and dimensions
-        if self.y > 599:
-            self.x = self.starting_xy_wh[0]
-            self.y = self.starting_xy_wh[1]
+        if self.y_pos > 599:
+            self.x_pos = self.starting_xy_wh[0]
+            self.y_pos = self.starting_xy_wh[1]
             self.width = self.starting_xy_wh[2]
             self.height = self.starting_xy_wh[3]
             # Random direction the pit goes
@@ -137,8 +140,8 @@ class Pit:
             else:
                 self._left_or_right = 1
         else:
-            self.y += self._y_speed
-            self.x += self._left_or_right / 5
+            self.y_pos += self._y_speed
+            self.x_pos += self._left_or_right / 5
             self.width += self._width_scaler
             self.height += self._height_scaler
 
