@@ -46,6 +46,8 @@ class AlienView(pygame.sprite.Sprite):
         # Define when the at rest image should be used
         if not controller.alive:
             self.image = self.images["both"]
+            for i in range(5):
+                pygame.transform.rotate(self.image, i * 90)
         elif controller.jumping:
             self.image = self.images["both"]
         # Otherwise switch between left and right leg forward every 200 ms
@@ -59,7 +61,7 @@ class AlienView(pygame.sprite.Sprite):
                 )
                 self.animation_timer = current_time
 
-    def draw(self, screen, pit):
+    def draw(self, screen, pit, controller):
         """
         Draws character on screen using image.
 
@@ -74,7 +76,8 @@ class AlienView(pygame.sprite.Sprite):
             pygame.Color(50, 50, 50),
             pygame.Rect(pit.x_pos, pit.y_pos, pit.width, pit.height),
         )
-        pit.update()
+        if controller.alive:
+            pit.update()
         # Draw Alien
         screen.blit(self.image, self.rect)
 

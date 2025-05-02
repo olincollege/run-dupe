@@ -105,7 +105,7 @@ class Game:
 
             # Draw everything
             self.screen.fill((0, 0, 0))
-            self.alien_view.draw(self.screen, self.pit)
+            self.alien_view.draw(self.screen, self.pit, self.alien_controller)
 
             # Check for death
             if not self.alien_controller.alive:
