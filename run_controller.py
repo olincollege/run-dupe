@@ -7,7 +7,6 @@ Returns:
 import pygame
 
 
-# pylint: disable=too-few-public-methods
 class AlienController(pygame.sprite.Sprite):
     """_summary_
 
@@ -18,7 +17,8 @@ class AlienController(pygame.sprite.Sprite):
     Attributes:
         width and height: Integers representing the width and height of the character.
         rect: A surface object representing the character.
-        alive, jumping, and on_ground: Booleans representing whether the character is alive, jumping, or on the ground.
+        alive, jumping, and on_ground: Booleans representing whether the character is alive,
+        jumping, or on the ground.
         velocity_x and velocity_y: Integers representing the characters x and y velocities.
     """
 
@@ -37,10 +37,8 @@ class AlienController(pygame.sprite.Sprite):
         self.width = width
         self.height = height
         self.rect = pygame.Rect(x_pos, y_pos, self.width, self.height)
-
+        self.state = {"jumping": False, "on_ground": True}
         self.alive = True
-        self.jumping = False
-        self.on_ground = True
         self.velocity_x = 0
         self.velocity_y = 0
 
@@ -61,7 +59,7 @@ class AlienController(pygame.sprite.Sprite):
             self.velocity_x = 5
 
         # Detect jump and run that function
-        if keys[pygame.K_SPACE] and self.on_ground:
+        if keys[pygame.K_SPACE] and self.state["on_ground"]:
             self.jump()
 
     def jump(self):
@@ -69,8 +67,8 @@ class AlienController(pygame.sprite.Sprite):
         Makes sets up the alien to jump.
         """
         self.velocity_y = -20
-        self.on_ground = False
-        self.jumping = True
+        self.state["on_ground"] = False
+        self.state["jumping"] = True
 
     def check_pitfall(self, surface):
         """
@@ -84,7 +82,9 @@ class AlienController(pygame.sprite.Sprite):
             pit and False if the character is dead and has fallen into the pit.
         """
 
-        if self.on_ground and surface.get_at(((self.rect.x), self.rect.bottom)) == (
+        if self.state["on_ground"] and surface.get_at(
+            ((self.rect.x), self.rect.bottom + 75)
+        ) == (
             50,
             50,
             50,
@@ -116,7 +116,7 @@ class AlienController(pygame.sprite.Sprite):
         gravity = 0.5
         self.velocity_y += gravity
         self.rect.y += self.velocity_y
-        self.jumping = True
+        self.state["jumping"] = True
 
         if (
             self.rect.top > 600
@@ -127,5 +127,5 @@ class AlienController(pygame.sprite.Sprite):
 
         if self.rect.bottom > 400:
             self.rect.bottom = 400
-            self.on_ground = True
-            self.jumping = False
+            self.state["on_ground"] = True
+            self.state["jumping"] = False
