@@ -82,9 +82,11 @@ class Game:
         pygame.display.update()
         # Frame Rate
         self.clock.tick(60)
+        background = pygame.image.load("background.png").convert_alpha()
 
         # Game loop
         while self.run:
+
             # Event handler
             for event in pygame.event.get():
                 # Quit game
@@ -105,6 +107,8 @@ class Game:
 
             # Draw everything
             self.screen.fill((0, 0, 0))
+            self.screen.blit(background, (0, 0))
+
             self.alien_view.draw(self.screen, self.pit, self.alien_controller)
 
             # Check for death
@@ -128,10 +132,9 @@ class Game:
         """
 
         self.level += 1
-        print(self.level)
-        print("new level")
+        print(f"Level {self.level}")
         self.pit_speed += 3
-        print(self.pit_speed)
+        print(f"Speed {self.pit_speed}")
 
 
 class Pit:
@@ -183,13 +186,16 @@ class Pit:
             self.width = self.starting_xy_wh[2]
             self.height = self.starting_xy_wh[3]
             # Random direction the pit goes
-            if random.randint(0, 100) < 50:
+            direction = random.randint(0, 3)
+            if direction == 0:
                 self._left_or_right = -1
+            elif direction == 1:
+                self._left_or_right = 0
             else:
                 self._left_or_right = 1
         else:
             self.y_pos += self._y_speed
-            self.x_pos += self._left_or_right / 5
+            self.x_pos += self._left_or_right / 5 + self._left_or_right * 2
             self.width += self._width_scaler
             self.height += self._height_scaler
 
