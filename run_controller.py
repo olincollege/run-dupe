@@ -91,7 +91,6 @@ class AlienController(pygame.sprite.Sprite):
         ):
             self.alive = False
             print("dead hehe")
-        return self.alive
 
     # Not using rn
     def check_next_level(self, surface):
