@@ -11,15 +11,18 @@ class AlienController(pygame.sprite.Sprite):
     """_summary_
 
     Args:
-        pygame.sprite.Sprite: A class representing the characteristics of a sprite.
+        pygame.sprite.Sprite: A class representing the characteristics
+        of a sprite.
 
 
     Attributes:
-        width and height: Integers representing the width and height of the character.
+        width and height: Integers representing the width and height of
+        the character.
         rect: A surface object representing the character.
-        alive, jumping, and on_ground: Booleans representing whether the character is alive,
-        jumping, or on the ground.
-        velocity_x and velocity_y: Integers representing the characters x and y velocities.
+        alive, jumping, and on_ground: Booleans representing whether the
+        character is alive, jumping, or on the ground.
+        velocity_x and velocity_y: Integers representing the characters
+        x and y velocities.
     """
 
     def __init__(self, x_pos, y_pos, width, height):
@@ -47,19 +50,20 @@ class AlienController(pygame.sprite.Sprite):
         Collects data of which keys have been pressed.
 
         Args:
-            keys: A dictionary with keys that are integers for each key on the keyboard
-            and values a value of 1 if it is being pressed or 0 if it is not being pressed.
+            keys: A dictionary with keys that are integers for each key on
+            the keyboard and values a value of 1 if it is being pressed or
+            0 if it is not being pressed.
         """
         # No x movement
         self.velocity_x = 0
         # Detect if keys are pressed
-        if keys[pygame.K_LEFT]:
+        if keys[pygame.K_LEFT] and self.alive:
             self.velocity_x = -5
-        elif keys[pygame.K_RIGHT]:
+        elif keys[pygame.K_RIGHT] and self.alive:
             self.velocity_x = 5
 
         # Detect jump and run that function
-        if keys[pygame.K_SPACE] and self.state["on_ground"]:
+        if keys[pygame.K_SPACE] and self.state["on_ground"] and self.alive:
             self.jump()
 
     def jump(self):
@@ -78,16 +82,17 @@ class AlienController(pygame.sprite.Sprite):
             surface: A surface object representing the game window.
 
         Returns:
-            A boolean, True if the character is alive and has not fallen into the
-            pit and False if the character is dead and has fallen into the pit.
+            A boolean, True if the character is alive and has not fallen
+            into the pit and False if the character is dead and has fallen
+            into the pit.
         """
 
         if self.state["on_ground"] and surface.get_at(
             ((self.rect.x), self.rect.bottom + 75)
         ) == (
-            50,
-            50,
-            50,
+            1,
+            1,
+            1,
         ):
             self.alive = False
             print("dead hehe")
@@ -95,7 +100,7 @@ class AlienController(pygame.sprite.Sprite):
     # Not using rn
     def check_next_level(self, surface):
         """
-        Checks if the character should move onto the nextlevel.
+        Checks if the character should move onto the next level.
 
         Args:
             surface: A surface object representing the game window.
@@ -118,13 +123,15 @@ class AlienController(pygame.sprite.Sprite):
         self.rect.y += self.velocity_y
         self.state["jumping"] = True
 
+        # Check if walked off screen
         if (
             self.rect.top > 600
-            or int(self.rect.left + self.width / 2) < 0
-            or int(self.rect.right - self.width / 2) > 800
+            or int(self.rect.left + self.width / 2) < 25
+            or int(self.rect.right - self.width / 2) > 700
         ):
             self.alive = False
 
+        # Keep feet on ground
         if self.rect.bottom > 400:
             self.rect.bottom = 400
             self.state["on_ground"] = True

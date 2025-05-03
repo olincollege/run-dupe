@@ -19,8 +19,8 @@ class Game:
         level and pit_speed: Integers that represent the level and the
         speed that the pits approach the character.
         pit: A class that creates the pits.
-        start_button and start_screen_view: Classes that represent the start button
-        and the view of the start screen.
+        start_button and start_screen_view: Classes that represent the
+        start button and the view of the start screen.
     """
 
     def __init__(self):
@@ -40,12 +40,14 @@ class Game:
 
         # Start button
         start_img = pygame.transform.scale_by(
-            pygame.image.load("start_button.png").convert_alpha(), 0.1
+            pygame.image.load("images/start_button.png").convert_alpha(), 0.1
         )
         self.start_button = Button(300, 200, start_img)
 
         # Start background image
-        background_img = pygame.image.load("start_screen.png").convert_alpha()
+        background_img = pygame.image.load(
+            "images/start_screen.png"
+        ).convert_alpha()
         self.start_screen_view = StartScreenView(background_img)
 
     def main_loop(self):
@@ -78,7 +80,7 @@ class Game:
         pygame.display.update()
         # Frame Rate
         self.clock.tick(60)
-        background = pygame.image.load("background.png").convert_alpha()
+        background = pygame.image.load("images/background.png").convert_alpha()
 
         # Game loop
         while run:
@@ -109,6 +111,7 @@ class Game:
 
             # Check for death
             if not self.alien_controller.alive:
+                # pit.game_reset(self.alien_controller.alive)
                 pass
 
             # Next level
@@ -127,7 +130,8 @@ class Game:
 
         Args:
             level: An integer representing the current level.
-            pit_speed: An integer representing the speed the pit approaches the character.
+            pit_speed: An integer representing the speed the pit
+            approaches the character.
         """
         level += 1
         print(f"Level {level}")
@@ -145,12 +149,14 @@ class Pit:
     Attributes:
         x_pos, y_pos: Integers representing the x and y positions of the pit.
         width, height: Integers representing the width and height of the pit.
-        __y_speed: A float representing the speed that the pit approaches the character.
-        _width_scalar, _height_scalar: A float representing the rate that the width and
-        height of the pit is growing as it approaches the character.
-        _left_or_right: An integer representing which direction the pit should approach
-        the character from, -1 for left and 1 for right.
-        pit_num: An integer representing the number of pits that have been created.
+        __y_speed: A float representing the speed that the pit approaches
+        the character.
+        _width_scalar, _height_scalar: A float representing the rate that the
+        width and height of the pit is growing as it approaches the character.
+        _left_or_right: An integer representing which direction the pit
+        should approach the character from, -1 for left and 1 for right.
+        pit_num: An integer representing the number of pits that have
+        been created.
     """
 
     # pylint: disable=too-many-instance-attributes,too-many-arguments
@@ -179,7 +185,8 @@ class Pit:
 
     def update(self):
         """
-        Updates the position and dimensions of the pit as it approaches the character.
+        Updates the position and dimensions of the pit as it approaches
+        the character.
         """
         # When pit leaves the screen reset position and dimensions
         if self.y_pos > 599:
@@ -202,8 +209,10 @@ class Pit:
             self.width += self._width_scaler
             self.height += self._height_scaler
 
-    def pylint(self):
-        """Satisfy pylint"""
+    # def game_reset(self, alive):
+    #     if not alive:
+    #         self.width = 0
+    #         self.height = 0
 
 
 if __name__ == "__main__":

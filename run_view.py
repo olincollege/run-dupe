@@ -12,22 +12,26 @@ class AlienView(pygame.sprite.Sprite):
     Draws the alien at the location of the controller.
 
     Args:
-        pygame.sprite.Sprite: A class representing the characteristics of a sprite.
+        pygame.sprite.Sprite: A class representing the characteristics
+        of a sprite.
 
     Attributes:
-        images: A dictionary with keys that are strings representing the titles of the
+        images: A dictionary with keys that are strings representing the
+        titles of the
         images and values of surface objects of images for the character.
-        image: A surface object of the current image the character is displaying.
+        image: A surface object of the current image the character is
+        displaying.
         rect: A surface object representing the character.
-        animation_timer: An integer representing the time in the character animation.
+        animation_timer: An integer representing the time in the character
+        animation.
         jumping: A boolean representing if the character is jumping or not.
     """
 
     def __init__(self):
         self.images = {
-            "both": pygame.image.load("character_images/both_legs.png"),
-            "left": pygame.image.load("character_images/left_leg.png"),
-            "right": pygame.image.load("character_images/right_leg.png"),
+            "both": pygame.image.load("images/both_legs.png"),
+            "left": pygame.image.load("images/left_leg.png"),
+            "right": pygame.image.load("images/right_leg.png"),
         }
         self.image = self.images["both"]
         self.rect = self.image.get_rect()
@@ -36,7 +40,8 @@ class AlienView(pygame.sprite.Sprite):
 
     def animate(self, controller):
         """
-        Updates the alien's graphic to one of three images to display running, jumping, and death.
+        Updates the alien's graphic to one of three images to display
+        running, jumping, and death.
 
         Args:
             controller: A class that acts as the controller for the alien.
@@ -71,7 +76,7 @@ class AlienView(pygame.sprite.Sprite):
         # Draw pit
         pygame.draw.rect(
             screen,
-            pygame.Color(50, 50, 50),
+            pygame.Color(1, 1, 1),
             pygame.Rect(pit.x_pos, pit.y_pos, pit.width, pit.height),
         )
         if controller.alive:
@@ -90,7 +95,8 @@ class StartScreenView:
         Initializes the variables for the start screen.
 
         Args:
-            background_img: A string representing the path to the image for the background.
+            background_img: A string representing the path to the image
+            for the background.
         """
         self.background_img = pygame.transform.scale_by(background_img, 0.6)
         self.background_rect = self.background_img.get_rect()
@@ -104,7 +110,8 @@ class StartScreenView:
             button: The class that acts as the view for the start button.
 
         Returns:
-            A boolean of True if the button has been clicked, else returns False.
+            A boolean of True if the button has been clicked, else
+            returns False.
         """
 
         # Draw everything

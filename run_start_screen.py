@@ -6,9 +6,6 @@ Returns:
 
 import pygame
 
-# To avoid pylint errors with pygame
-# pylint: disable=no-member
-
 
 # Button class
 class Button:
@@ -16,10 +13,12 @@ class Button:
     Represents a clickable button with a hover effect.
 
     Attributes:
-        image: A string representing the path to the image representing the button.
+        image: A string representing the path to the image representing
+        the button.
         hover_image: A modified version of the original image.
         rect: An rectangle representing the button.
-        clicked: A boolean representing whether or not the button has been clicked.
+        clicked: A boolean representing whether or not the button has
+        been clicked.
     """
 
     def __init__(self, x_pos, y_pos, image):
@@ -53,13 +52,16 @@ class Button:
             screen: An image of the background to draw the button on.
 
         Returns:
-            A boolean of True if the button has been clicked, else returns False.
+            A boolean of True if the button has been clicked, else
+            returns False.
         """
 
         # Get mouse position
         pos = pygame.mouse.get_pos()
 
-        current_image = self.hover_image if self.rect.collidepoint(pos) else self.image
+        current_image = (
+            self.hover_image if self.rect.collidepoint(pos) else self.image
+        )
         screen.blit(current_image, self.rect)
 
         # Handle click
