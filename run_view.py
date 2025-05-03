@@ -29,9 +29,15 @@ class AlienView(pygame.sprite.Sprite):
 
     def __init__(self):
         self.images = {
-            "both": pygame.image.load("images/both_legs.png"),
-            "left": pygame.image.load("images/left_leg.png"),
-            "right": pygame.image.load("images/right_leg.png"),
+            "both": pygame.transform.scale_by(
+                pygame.image.load("images/BOTH_legs.png").convert_alpha(), 0.5
+            ),
+            "left": pygame.transform.scale_by(
+                pygame.image.load("images/LEFT_leg.png").convert_alpha(), 0.5
+            ),
+            "right": pygame.transform.scale_by(
+                pygame.image.load("images/RIGHT_leg.png").convert_alpha(), 0.5
+            ),
         }
         self.image = self.images["both"]
         self.rect = self.image.get_rect()
@@ -49,8 +55,6 @@ class AlienView(pygame.sprite.Sprite):
         # Define when the at rest image should be used
         if not controller.alive:
             self.image = self.images["both"]
-            for i in range(5):
-                pygame.transform.rotate(self.image, i * 90)
         elif controller.state["jumping"]:
             self.image = self.images["both"]
         # Otherwise switch between left and right leg forward every 200 ms

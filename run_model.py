@@ -50,18 +50,24 @@ class Game:
         ).convert_alpha()
         self.start_screen_view = StartScreenView(background_img)
 
+        self.properties = {"level": 1, "pit_speed": 3.5}
+        self.which_screen = {"start_screen": True, "run": False}
+
     def main_loop(self):
         """
         Runs the main game loop.
         """
-        start_screen = True
-        run = False
-        level = 0
-        pit_speed = self.update_level(level)
-        pit = Pit(300, 0, 200, 10, pit_speed, level)
+        pit = Pit(
+            300,
+            0,
+            200,
+            10,
+            self.properties["pit_speed"],
+            self.properties["level"],
+        )
 
         # Start screen
-        while start_screen:
+        while self.which_screen["start_screen"]:
             # To close the game
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -73,8 +79,8 @@ class Game:
             )
 
             if clicked:
-                start_screen = False
-                run = True
+                self.which_screen["start_screen"] = False
+                self.which_screen["run"] = True
 
         # Update display
         pygame.display.update()
@@ -83,13 +89,12 @@ class Game:
         background = pygame.image.load("images/background.png").convert_alpha()
 
         # Game loop
-        while run:
-
+        while self.which_screen["run"]:
             # Event handler
             for event in pygame.event.get():
                 # Quit game
                 if event.type == pygame.QUIT:
-                    run = False
+                    self.which_screen["run"] = False
 
             # Key press
             keys = pygame.key.get_pressed()
@@ -111,20 +116,20 @@ class Game:
 
             # Check for death
             if not self.alien_controller.alive:
-                # pit.game_reset(self.alien_controller.alive)
-                pass
+                self.which_screen.update({"start_screen": True, "run": False})
+                self.main_loop()
 
             # Next level
             if pit.pit_num == 1:
                 pit.pit_num = 0
-                self.update_level(level)
+                self.update_level()
             pygame.display.update()
 
             # Set framerate
             self.clock.tick(60)
         pygame.quit()
 
-    def update_level(self, level):
+    def update_level(self):
         """
         Changes speed that platforms approach at each level.
 
@@ -133,13 +138,12 @@ class Game:
             pit_speed: An integer representing the speed the pit
             approaches the character.
         """
-        level += 1
-        print(f"Level {level}")
-        if level == 1:
-            pit_speed = 3.5
+        self.properties["level"] += 1
+        print(f"Level {self.properties["level"]}")
+        if self.properties["level"] == 1:
+            self.properties["pit_speed"] = 3.5
         else:
-            pit_speed += 3
-        return pit_speed
+            self.properties["pit_speed"] += 3
 
 
 class Pit:
@@ -158,8 +162,6 @@ class Pit:
         pit_num: An integer representing the number of pits that have
         been created.
     """
-
-    # pylint: disable=too-many-instance-attributes,too-many-arguments
 
     def __init__(self, x_pos, y_pos, width, height, speed, level):
         """
@@ -218,3 +220,5 @@ class Pit:
 if __name__ == "__main__":
     game = Game()
     game.main_loop()
+
+# pylint: disable=too-many-instance-attributes,too-many-arguments

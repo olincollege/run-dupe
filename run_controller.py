@@ -88,7 +88,7 @@ class AlienController(pygame.sprite.Sprite):
         """
 
         if self.state["on_ground"] and surface.get_at(
-            ((self.rect.x), self.rect.bottom + 75)
+            ((self.rect.x), self.rect.bottom + 100)
         ) == (
             1,
             1,
@@ -126,8 +126,8 @@ class AlienController(pygame.sprite.Sprite):
         # Check if walked off screen
         if (
             self.rect.top > 600
-            or int(self.rect.left + self.width / 2) < 25
-            or int(self.rect.right - self.width / 2) > 700
+            or int(self.rect.left + self.width / 2) < 30
+            or int(self.rect.right - self.width / 2) > 675
         ):
             self.alive = False
 
