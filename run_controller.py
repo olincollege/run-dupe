@@ -1,8 +1,4 @@
-"""_summary_
-
-Returns:
-    _type_: _description_
-"""
+"""Add docstring"""
 
 import pygame
 
@@ -19,8 +15,9 @@ class AlienController(pygame.sprite.Sprite):
         width and height: Integers representing the width and height of
         the character.
         rect: A surface object representing the character.
-        alive, jumping, and on_ground: Booleans representing whether the
-        character is alive, jumping, or on the ground.
+        state: A dictionary with keys that are strings representing states
+        that the character can be in and values of booleans.
+        alive: A boolean representing whether the character is alive.
         velocity_x and velocity_y: Integers representing the characters
         x and y velocities.
     """
@@ -95,19 +92,19 @@ class AlienController(pygame.sprite.Sprite):
             1,
         ):
             self.alive = False
-            print("dead hehe")
 
     # Not using rn
-    def check_next_level(self, surface):
-        """
-        Checks if the character should move onto the next level.
+    # def check_next_level(self, surface):
+    #     """
+    #     Checks if the character should move onto the next level.
 
-        Args:
-            surface: A surface object representing the game window.
-        """
-        if surface.get_at(self.rect) == (0, 0, 255):
-            self.alive = False
-            print("next level")
+    #     Args:
+    #         surface: A surface object representing the game window.
+    #     """
+    #     if surface.get_at(self.rect) == (0, 0, 255):
+    #         self.alive = False
+
+    #         print("next level")
 
     def update(self):
         """

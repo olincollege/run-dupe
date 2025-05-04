@@ -27,14 +27,24 @@ class Button:
         Args:
             x_val: An integer representing the x coordinate of the button.
             y_val: An integer representing the y coordinate of the button.
-            image: A string of the path to the image of the button.
+            image: A Pygame surface object representing the button's image.
         """
+        pygame.init()
         self.image = image
         self.hover_image = self._hover_button(image)
         self.rect = self.image.get_rect(topleft=(x_pos, y_pos))
         self.clicked = False
 
     def _hover_button(self, image):
+        """
+        Recolors an image.
+
+        Args:
+            image: A string representing a path to an image.
+
+        Returns:
+            An image that has been recolored.
+        """
         # Creates a copy of the original image
         hover_image = image.copy()
 
@@ -46,7 +56,8 @@ class Button:
         return hover_image
 
     def draw_button(self, screen):
-        """_summary_
+        """
+        Draws the button and checks if it has been clicked.
 
         Args:
             screen: An image of the background to draw the button on.
@@ -71,7 +82,7 @@ class Button:
                 self.clicked = True
                 return True
 
-        # Reset button no not being pressed
+        # Reset button to not being pressed
         if pygame.mouse.get_pressed()[0] == 0:
             self.clicked = False
 
@@ -80,3 +91,6 @@ class Button:
     def is_hovered(self):
         """Returns True if the mouse is hovering over the button."""
         return self.rect.collidepoint(pygame.mouse.get_pos())
+
+    def reset(self):
+        self.clicked = False

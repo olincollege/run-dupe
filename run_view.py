@@ -28,6 +28,7 @@ class AlienView(pygame.sprite.Sprite):
     """
 
     def __init__(self):
+        pygame.init()
         self.images = {
             "both": pygame.transform.scale_by(
                 pygame.image.load("images/BOTH_legs.png").convert_alpha(), 0.5
@@ -75,6 +76,7 @@ class AlienView(pygame.sprite.Sprite):
         Args:
             screen: A surface object representing the game window.
             pit: A class that creates the pit.
+            controller: A class that acts as the controller.
         """
 
         # Draw pit
@@ -88,10 +90,27 @@ class AlienView(pygame.sprite.Sprite):
         # Draw Alien
         screen.blit(self.image, self.rect)
 
+    def draw_level(self, screen, level):
+        """
+        Displays level on screen.
+
+        Args:
+            screen: A surface object representing the game window.
+            level: An integer representing the current level.
+        """
+        level_text = f"Level: {level}"
+        font = pygame.font.SysFont("Arial", 30)
+        text_surface = font.render(level_text, True, (255, 255, 255))
+        screen.blit(text_surface, (10, 10))
+
 
 class StartScreenView:
     """
     Draws the start screen and button.
+
+    Attributes:
+        background_img: An image object for the background of the start screen.
+        background_rect: A rectangle object to display the background image on.
     """
 
     def __init__(self, background_img):

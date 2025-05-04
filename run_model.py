@@ -16,11 +16,11 @@ class Game:
         start_screen and run: Booleans that represent the state of the game.
         alien_controller and alien_view: Classes that represent the controller
         and view the game.
-        level and pit_speed: Integers that represent the level and the
-        speed that the pits approach the character.
-        pit: A class that creates the pits.
         start_button and start_screen_view: Classes that represent the
         start button and the view of the start screen.
+        properties: A dictionary with keys of strings representing game
+        properties and values of floats that represent the level and the
+        speed that the pits approach the character.
     """
 
     def __init__(self):
@@ -116,13 +116,14 @@ class Game:
 
             # Check for death
             if not self.alien_controller.alive:
-                self.which_screen.update({"start_screen": True, "run": False})
-                self.main_loop()
+                self.reset_game()
 
             # Next level
             if pit.pit_num == 1:
                 pit.pit_num = 0
                 self.update_level()
+            self.alien_view.draw_level(self.screen, self.properties["level"])
+
             pygame.display.update()
 
             # Set framerate
@@ -132,18 +133,45 @@ class Game:
     def update_level(self):
         """
         Changes speed that platforms approach at each level.
-
-        Args:
-            level: An integer representing the current level.
-            pit_speed: An integer representing the speed the pit
-            approaches the character.
         """
         self.properties["level"] += 1
         print(f"Level {self.properties["level"]}")
         if self.properties["level"] == 1:
             self.properties["pit_speed"] = 3.5
         else:
-            self.properties["pit_speed"] += 3
+            self.properties["pit_speed"] += 10
+
+    def reset_game(self):
+        """
+        Resets the game after death.
+        """
+        self.which_screen = {
+            "start_screen": True,
+            "run": False,
+            "game_over": False,
+        }
+        self.start_button.clicked = False
+
+        self.properties["level"] = 1
+        self.properties["pit_speed"] = 3.5
+
+        # Reset the character controller
+        self.alien_controller.rect.topleft = (
+            375,
+            375,
+        )
+        self.alien_controller.velocity_x = 0
+        self.alien_controller.velocity_y = 0
+        self.alien_controller.state = {"jumping": False, "on_ground": True}
+        self.alien_controller.alive = True
+
+        # Reset the view
+        self.alien_view.rect.topleft = self.alien_controller.rect.topleft
+
+        # Reset the start screen and button state
+        self.start_button.clicked = False
+        self.which_screen = {"start_screen": True, "run": False}
+        self.main_loop()
 
 
 class Pit:
@@ -151,6 +179,8 @@ class Pit:
     Creates a pit.
 
     Attributes:
+        starting_xy_wh: A list of integers representing the starting conditions
+        of the pit.
         x_pos, y_pos: Integers representing the x and y positions of the pit.
         width, height: Integers representing the width and height of the pit.
         __y_speed: A float representing the speed that the pit approaches
