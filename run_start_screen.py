@@ -1,8 +1,4 @@
-"""_summary_
-
-Returns:
-    _type_: _description_
-"""
+"""Contains the class that creates a button to start the game."""
 
 import pygame
 
@@ -93,4 +89,5 @@ class Button:
         return self.rect.collidepoint(pygame.mouse.get_pos())
 
     def reset(self):
+        """Resets the button to not being clicked."""
         self.clicked = False

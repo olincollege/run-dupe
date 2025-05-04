@@ -1,5 +1,6 @@
-"""Add docstring"""
+"""Contains the controller classes for the character and the pits."""
 
+import random
 import pygame
 
 
@@ -93,19 +94,6 @@ class AlienController(pygame.sprite.Sprite):
         ):
             self.alive = False
 
-    # Not using rn
-    # def check_next_level(self, surface):
-    #     """
-    #     Checks if the character should move onto the next level.
-
-    #     Args:
-    #         surface: A surface object representing the game window.
-    #     """
-    #     if surface.get_at(self.rect) == (0, 0, 255):
-    #         self.alive = False
-
-    #         print("next level")
-
     def update(self):
         """
         Update the character to change location when keys are pressed,
@@ -133,3 +121,77 @@ class AlienController(pygame.sprite.Sprite):
             self.rect.bottom = 400
             self.state["on_ground"] = True
             self.state["jumping"] = False
+
+
+class PitController:
+    # pylint: disable=too-many-instance-attributes
+    """
+    Creates a pit.
+
+    Attributes:
+        starting_xy_wh: A list of integers representing the starting conditions
+        of the pit.
+        x_pos, y_pos: Integers representing the x and y positions of the pit.
+        width, height: Integers representing the width and height of the pit.
+        __y_speed: A float representing the speed that the pit approaches
+        the character.
+        _width_scalar, _height_scalar: A float representing the rate that the
+        width and height of the pit is growing as it approaches the character.
+        _left_or_right: An integer representing which direction the pit
+        should approach the character from, -1 for left and 1 for right.
+        pit_num: An integer representing the number of pits that have
+        been created.
+    """
+
+    def __init__(self, x_pos, y_pos, width, height, speed, level):
+        # pylint: disable=too-many-arguments
+
+        """
+        Initializes the variables to create the pit.
+
+        Args:
+            x_pos: An integer representing the x position of the pit.
+            y_pos: An integer representing the y position of the pit.
+            width: An integer representing the width of the pit.
+            height: An integer representing the height of the pit.
+            level: An integer representing the current level.
+        """
+        self.starting_xy_wh = (x_pos, y_pos, width, height)
+        self.x_pos = x_pos
+        self.y_pos = y_pos
+        self.width = width
+        self.height = height * level
+        self._y_speed = speed
+        self.pit_num = 0
+        self._width_scaler = 0.2
+        self._height_scaler = 0.4
+        self._left_or_right = 0
+
+    def update(self):
+        """
+        Updates the position and dimensions of the pit as it approaches
+        the character.
+        """
+        # When pit leaves the screen reset position and dimensions
+        if self.y_pos > 599:
+            self.pit_num += 1
+            self.x_pos = self.starting_xy_wh[0]
+            self.y_pos = self.starting_xy_wh[1]
+            self.width = self.starting_xy_wh[2]
+            self.height = self.starting_xy_wh[3]
+            # Random direction the pit goes
+            direction = random.randint(0, 3)
+            if direction == 0:
+                self._left_or_right = -1
+            elif direction == 1:
+                self._left_or_right = 0
+            else:
+                self._left_or_right = 1
+        else:
+            self.y_pos += self._y_speed
+            self.x_pos += self._left_or_right / 5 + self._left_or_right * 2
+            self.width += self._width_scaler
+            self.height += self._height_scaler
+
+    def i_hate_pylint(self):
+        """Self explanatory"""

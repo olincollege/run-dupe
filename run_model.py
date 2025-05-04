@@ -1,9 +1,8 @@
-"""_summary_"""
+"""Runs the game."""
 
-import random
 import pygame
-from run_view import AlienView, StartScreenView
-from run_controller import AlienController
+from run_view import GameView, StartScreenView
+from run_controller import AlienController, PitController
 from run_start_screen import Button
 
 
@@ -14,7 +13,7 @@ class Game:
     Attributes:
         screen and clock: Pygame classes that set up the game.
         start_screen and run: Booleans that represent the state of the game.
-        alien_controller and alien_view: Classes that represent the controller
+        alien_controller and game_view: Classes that represent the controller
         and view the game.
         start_button and start_screen_view: Classes that represent the
         start button and the view of the start screen.
@@ -23,6 +22,7 @@ class Game:
         speed that the pits approach the character.
     """
 
+    # pylint: disable=too-many-instance-attributes
     def __init__(self):
         pygame.init()
 
@@ -35,8 +35,8 @@ class Game:
 
         # Alien
         self.alien_controller = AlienController(375, 375, 50, 50)
-        self.alien_view = AlienView()
-        self.alien_view.rect.topleft = self.alien_controller.rect.topleft
+        self.game_view = GameView()
+        self.game_view.rect.topleft = self.alien_controller.rect.topleft
 
         # Start button
         start_img = pygame.transform.scale_by(
@@ -57,7 +57,7 @@ class Game:
         """
         Runs the main game loop.
         """
-        pit = Pit(
+        pit = PitController(
             300,
             0,
             200,
@@ -105,14 +105,14 @@ class Game:
             self.alien_controller.check_pitfall(self.screen)
 
             # Update view
-            self.alien_view.rect.topleft = self.alien_controller.rect.topleft
-            self.alien_view.animate(self.alien_controller)
+            self.game_view.rect.topleft = self.alien_controller.rect.topleft
+            self.game_view.animate(self.alien_controller)
 
             # Draw everything
             self.screen.fill((0, 0, 0))
             self.screen.blit(background, (0, 0))
 
-            self.alien_view.draw(self.screen, pit, self.alien_controller)
+            self.game_view.draw(self.screen, pit, self.alien_controller)
 
             # Check for death
             if not self.alien_controller.alive:
@@ -122,7 +122,7 @@ class Game:
             if pit.pit_num == 1:
                 pit.pit_num = 0
                 self.update_level()
-            self.alien_view.draw_level(self.screen, self.properties["level"])
+            self.game_view.draw_level(self.screen, self.properties["level"])
 
             pygame.display.update()
 
@@ -166,7 +166,7 @@ class Game:
         self.alien_controller.alive = True
 
         # Reset the view
-        self.alien_view.rect.topleft = self.alien_controller.rect.topleft
+        self.game_view.rect.topleft = self.alien_controller.rect.topleft
 
         # Reset the start screen and button state
         self.start_button.clicked = False
@@ -174,81 +174,6 @@ class Game:
         self.main_loop()
 
 
-class Pit:
-    """
-    Creates a pit.
-
-    Attributes:
-        starting_xy_wh: A list of integers representing the starting conditions
-        of the pit.
-        x_pos, y_pos: Integers representing the x and y positions of the pit.
-        width, height: Integers representing the width and height of the pit.
-        __y_speed: A float representing the speed that the pit approaches
-        the character.
-        _width_scalar, _height_scalar: A float representing the rate that the
-        width and height of the pit is growing as it approaches the character.
-        _left_or_right: An integer representing which direction the pit
-        should approach the character from, -1 for left and 1 for right.
-        pit_num: An integer representing the number of pits that have
-        been created.
-    """
-
-    def __init__(self, x_pos, y_pos, width, height, speed, level):
-        """
-        Initializes the variables to create the pit.
-
-        Args:
-            x_pos: An integer representing the x position of the pit.
-            y_pos: An integer representing the y position of the pit.
-            width: An integer representing the width of the pit.
-            height: An integer representing the height of the pit.
-            level: An integer representing the current level.
-        """
-        self.starting_xy_wh = (x_pos, y_pos, width, height)
-        self.x_pos = x_pos
-        self.y_pos = y_pos
-        self.width = width
-        self.height = height * level
-        self._y_speed = speed
-        self.pit_num = 0
-        self._width_scaler = 0.2
-        self._height_scaler = 0.4
-        self._left_or_right = 0
-
-    def update(self):
-        """
-        Updates the position and dimensions of the pit as it approaches
-        the character.
-        """
-        # When pit leaves the screen reset position and dimensions
-        if self.y_pos > 599:
-            self.pit_num += 1
-            self.x_pos = self.starting_xy_wh[0]
-            self.y_pos = self.starting_xy_wh[1]
-            self.width = self.starting_xy_wh[2]
-            self.height = self.starting_xy_wh[3]
-            # Random direction the pit goes
-            direction = random.randint(0, 3)
-            if direction == 0:
-                self._left_or_right = -1
-            elif direction == 1:
-                self._left_or_right = 0
-            else:
-                self._left_or_right = 1
-        else:
-            self.y_pos += self._y_speed
-            self.x_pos += self._left_or_right / 5 + self._left_or_right * 2
-            self.width += self._width_scaler
-            self.height += self._height_scaler
-
-    # def game_reset(self, alive):
-    #     if not alive:
-    #         self.width = 0
-    #         self.height = 0
-
-
 if __name__ == "__main__":
     game = Game()
     game.main_loop()
-
-# pylint: disable=too-many-instance-attributes,too-many-arguments

@@ -1,13 +1,9 @@
-"""_summary_
-
-Returns:
-    _type_: _description_
-"""
+"""Contains the view classes for the game and the start screen."""
 
 import pygame
 
 
-class AlienView(pygame.sprite.Sprite):
+class GameView(pygame.sprite.Sprite):
     """
     Draws the alien at the location of the controller.
 
