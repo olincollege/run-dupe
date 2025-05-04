@@ -1,6 +1,6 @@
 # Run Dupe!
 The goal: \
-![image dsc](run3screen.jpeg)
+![image dsc](images\run3screen.jpeg)
 ```
 File: main.py
 	def main
