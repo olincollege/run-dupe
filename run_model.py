@@ -20,6 +20,9 @@ class Game:
         properties: A dictionary with keys of strings representing game
         properties and values of floats that represent the level and the
         speed that the pits approach the character.
+        which_screen: A dictionary with keys of string representing the
+        two displays and values of booleans with True if that display is
+        being shown, else False.
     """
 
     # pylint: disable=too-many-instance-attributes
@@ -33,23 +36,24 @@ class Game:
         self.screen = pygame.display.set_mode((800, 600))
         self.clock = pygame.time.Clock()
 
-        # Alien
+        # Load classes for game controller and view
         self.alien_controller = AlienController(375, 375, 50, 50)
         self.game_view = GameView()
         self.game_view.rect.topleft = self.alien_controller.rect.topleft
 
-        # Start button
+        # Load image and class for start button
         start_img = pygame.transform.scale_by(
             pygame.image.load("images/start_button.png").convert_alpha(), 0.1
         )
         self.start_button = Button(300, 200, start_img)
 
-        # Start background image
+        # Load image and class for start screen background
         background_img = pygame.image.load(
             "images/start_screen.png"
         ).convert_alpha()
         self.start_screen_view = StartScreenView(background_img)
 
+        # Initialize some game properties
         self.properties = {"level": 1, "pit_speed": 3.5}
         self.which_screen = {"start_screen": True, "run": False}
 
@@ -57,119 +61,130 @@ class Game:
         """
         Runs the main game loop.
         """
-        pit = PitController(
-            300,
-            0,
-            200,
-            10,
-            self.properties["pit_speed"],
-            self.properties["level"],
-        )
 
-        # Start screen
-        while self.which_screen["start_screen"]:
-            # To close the game
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    return
-            clicked = self.start_screen_view.draw(
-                self.screen,
-                self.start_button,
-            )
-
-            if clicked:
-                self.which_screen["start_screen"] = False
-                self.which_screen["run"] = True
-
-        # Update display
-        pygame.display.update()
-
-        # Frame Rate
-        self.clock.tick(60)
+        # Game background image
         background = pygame.image.load("images/background.png").convert_alpha()
 
-        # Game loop
-        while self.which_screen["run"]:
-            # Event handler
-            for event in pygame.event.get():
-                # Quit game
-                if event.type == pygame.QUIT:
-                    self.which_screen["run"] = False
+        while True:
+            # Start screen display
+            while self.which_screen["start_screen"]:
+                # To close the game
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                        return
 
-            # Key press
-            keys = pygame.key.get_pressed()
-            self.alien_controller.press_keys(keys)
+                # Draw start screen and start button
+                clicked = self.start_screen_view.draw(
+                    self.screen,
+                    self.start_button,
+                )
 
-            # Update controller
-            self.alien_controller.update()
-            self.alien_controller.check_pitfall(self.screen)
+                # If start button is clicked change displays to game running
+                if clicked:
+                    self.which_screen["start_screen"] = False
+                    self.which_screen["run"] = True
 
-            # Update view
-            self.game_view.rect.topleft = self.alien_controller.rect.topleft
-            self.game_view.animate(self.alien_controller)
-
-            # Draw everything
-            self.screen.fill((0, 0, 0))
-            self.screen.blit(background, (0, 0))
-
-            self.game_view.draw(self.screen, pit, self.alien_controller)
-
-            # Check for death
-            if not self.alien_controller.alive:
-                self.reset_game()
-
-            # Next level
-            if pit.pit_num == 1:
-                pit.pit_num = 0
-                self.update_level(pit)
-            self.game_view.draw_level(self.screen, self.properties["level"])
-
+            # Update display
             pygame.display.update()
 
-            # Set framerate
+            # Frame Rate
             self.clock.tick(60)
-        pygame.quit()
 
-    def update_level(self, pit):
+            # Create a pit
+            pit = PitController(
+                300,
+                0,
+                200,
+                10,
+                self.properties["pit_speed"],
+                self.properties["level"],
+            )
+
+            # Game loop
+            while self.which_screen["run"]:
+                # Event handler
+                for event in pygame.event.get():
+                    # Quit game
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                        return
+
+                # Key press
+                keys = pygame.key.get_pressed()
+                self.alien_controller.press_keys(keys)
+
+                # Update controller
+                self.alien_controller.update()
+                self.alien_controller.check_pitfall(self.screen)
+
+                # Update view location and animation
+                self.game_view.rect.topleft = self.alien_controller.rect.topleft
+                self.game_view.animate(self.alien_controller)
+
+                # Draw background display
+                self.screen.fill((0, 0, 0))
+                self.screen.blit(background, (0, 0))
+
+                # Update pit location
+                pit.update()
+
+                # Draw character and pits
+                self.game_view.draw(self.screen, pit, self.alien_controller)
+                self.game_view.draw_level(self.screen, self.properties["level"])
+
+                # If character dies reset game
+                if not self.alien_controller.alive:
+                    self.reset_game()
+                    break
+
+                # New level after passing 5 pits
+                if pit.pit_num == 5:
+                    self.update_level()
+                    pit = PitController(
+                        300,
+                        0,
+                        200,
+                        10,
+                        self.properties["pit_speed"],
+                        self.properties["level"],
+                    )
+
+                # Update display
+                pygame.display.update()
+
+                # Set framerate
+                self.clock.tick(60)
+
+    def update_level(self):
         """
         Changes speed that platforms approach at each level and level number.
         """
+
         self.properties["level"] += 1
-        self.properties["pit_speed"] += 3
-        pit.update_level(self.properties["pit_speed"])
+        # Speed up pit approaches for first 8 levels
+        # (it gets too fast after that)
+        if 1 <= self.properties["level"] < 8:
+            self.properties["pit_speed"] += 1
 
     def reset_game(self):
         """
-        Resets the game after death.
+        Resets the game after death to original properties.
         """
-        self.which_screen = {
-            "start_screen": True,
-            "run": False,
-            "game_over": False,
-        }
-        self.start_button.clicked = False
 
         self.properties["level"] = 1
         self.properties["pit_speed"] = 3.5
 
-        # Reset the character controller
-        self.alien_controller.rect.topleft = (
-            375,
-            375,
-        )
+        self.alien_controller.rect.topleft = (375, 375)
         self.alien_controller.velocity_x = 0
         self.alien_controller.velocity_y = 0
         self.alien_controller.state = {"jumping": False, "on_ground": True}
         self.alien_controller.alive = True
 
-        # Reset the view
         self.game_view.rect.topleft = self.alien_controller.rect.topleft
 
-        # Reset the start screen and button state
         self.start_button.clicked = False
         self.which_screen = {"start_screen": True, "run": False}
-        self.main_loop()
 
 
 if __name__ == "__main__":

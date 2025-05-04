@@ -5,7 +5,8 @@ import pygame
 
 
 class AlienController(pygame.sprite.Sprite):
-    """_summary_
+    """
+    Controls the player.
 
     Args:
         pygame.sprite.Sprite: A class representing the characteristics
@@ -54,7 +55,8 @@ class AlienController(pygame.sprite.Sprite):
         """
         # No x movement
         self.velocity_x = 0
-        # Detect if keys are pressed
+
+        # Detect if keys are pressed and changes velocity
         if keys[pygame.K_LEFT] and self.alive:
             self.velocity_x = -5
         elif keys[pygame.K_RIGHT] and self.alive:
@@ -68,6 +70,7 @@ class AlienController(pygame.sprite.Sprite):
         """
         Makes sets up the alien to jump.
         """
+
         self.velocity_y = -20
         self.state["on_ground"] = False
         self.state["jumping"] = True
@@ -85,6 +88,8 @@ class AlienController(pygame.sprite.Sprite):
             into the pit.
         """
 
+        # Checks for the color of the pit
+        # Can only die when touching pit and on ground
         if self.state["on_ground"] and surface.get_at(
             ((self.rect.x), self.rect.bottom + 100)
         ) == (
@@ -103,12 +108,12 @@ class AlienController(pygame.sprite.Sprite):
         self.rect.x += self.velocity_x
 
         # Move up/down
-        gravity = 0.5
+        gravity = 0.75
         self.velocity_y += gravity
         self.rect.y += self.velocity_y
         self.state["jumping"] = True
 
-        # Check if walked off screen
+        # Check if character has fallen off path or below the screen
         if (
             self.rect.top > 600
             or int(self.rect.left + self.width / 2) < 30
@@ -183,19 +188,36 @@ class PitController:
             direction = random.randint(0, 3)
             if direction == 0:
                 self._left_or_right = -1
+                print("left")
+                self.starting_xy_wh = (
+                    self.x_pos + 100,
+                    self.y_pos,
+                    self.width,
+                    self.height,
+                )
             elif direction == 1:
                 self._left_or_right = 0
             else:
+                print("right")
                 self._left_or_right = 1
+                self.starting_xy_wh = (
+                    self.x_pos - 100,
+                    self.y_pos,
+                    self.width,
+                    self.height,
+                )
+        # Update pit position to move down the screen in direction
         else:
             self.y_pos += self._y_speed
             self.x_pos += self._left_or_right / 5 + self._left_or_right * 2
             self.width += self._width_scaler
             self.height += self._height_scaler
-        print(self._y_speed)
 
     def update_level(self, new_speed):
-        self._y_speed = new_speed
+        """
+        Changes speed for new level.
 
-    def i_hate_pylint(self):
-        """Self explanatory"""
+        Args:
+            new_speed: An integer representing the updates speed.
+        """
+        self._y_speed = new_speed

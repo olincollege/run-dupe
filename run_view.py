@@ -24,6 +24,8 @@ class GameView(pygame.sprite.Sprite):
     """
 
     def __init__(self):
+        """Initialize variables."""
+
         pygame.init()
         self.images = {
             "both": pygame.transform.scale_by(
@@ -76,11 +78,14 @@ class GameView(pygame.sprite.Sprite):
         """
 
         # Draw pit
+        # Pits are slightly off color from the background for detection
         pygame.draw.rect(
             screen,
             pygame.Color(1, 1, 1),
             pygame.Rect(pit.x_pos, pit.y_pos, pit.width, pit.height),
         )
+
+        # Pits stop appearing after character death
         if controller.alive:
             pit.update()
 
@@ -89,12 +94,13 @@ class GameView(pygame.sprite.Sprite):
 
     def draw_level(self, screen, level):
         """
-        Displays level on screen.
+        Displays current level on screen.
 
         Args:
             screen: A surface object representing the game window.
             level: An integer representing the current level.
         """
+
         pygame.init()
         level_text = f"Level: {level}"
         font = pygame.font.SysFont("Arial", 30)
@@ -124,11 +130,12 @@ class StartScreenView:
         self.background_rect.center = (400, 300)
 
     def draw(self, screen, button):
-        """_summary_
+        """
+        Draws the background and the button.
 
         Args:
             screen: A surface object representing the game window.
-            button: The class that acts as the view for the start button.
+            button: The class that acts as the controller for the start button.
 
         Returns:
             A boolean of True if the button has been clicked, else
@@ -140,7 +147,9 @@ class StartScreenView:
         screen.blit(self.background_img, self.background_rect)
         clicked = button.draw_button(screen)
         pygame.display.update()
+
+        # Return when the button is clicked
         return clicked
 
     def pylint(self):
-        """Satisfy pylint"""
+        """I have pylint."""

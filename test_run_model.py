@@ -1,3 +1,5 @@
+"""Pytests for model."""
+
 import pygame
 from run_model import Game
 from run_controller import AlienController, PitController
