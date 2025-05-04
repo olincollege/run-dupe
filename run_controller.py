@@ -192,6 +192,10 @@ class PitController:
             self.x_pos += self._left_or_right / 5 + self._left_or_right * 2
             self.width += self._width_scaler
             self.height += self._height_scaler
+        print(self._y_speed)
+
+    def update_level(self, new_speed):
+        self._y_speed = new_speed
 
     def i_hate_pylint(self):
         """Self explanatory"""

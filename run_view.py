@@ -83,6 +83,7 @@ class GameView(pygame.sprite.Sprite):
         )
         if controller.alive:
             pit.update()
+
         # Draw Alien
         screen.blit(self.image, self.rect)
 
@@ -94,6 +95,7 @@ class GameView(pygame.sprite.Sprite):
             screen: A surface object representing the game window.
             level: An integer representing the current level.
         """
+        pygame.init()
         level_text = f"Level: {level}"
         font = pygame.font.SysFont("Arial", 30)
         text_surface = font.render(level_text, True, (255, 255, 255))

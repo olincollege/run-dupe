@@ -84,6 +84,7 @@ class Game:
 
         # Update display
         pygame.display.update()
+
         # Frame Rate
         self.clock.tick(60)
         background = pygame.image.load("images/background.png").convert_alpha()
@@ -121,7 +122,7 @@ class Game:
             # Next level
             if pit.pit_num == 1:
                 pit.pit_num = 0
-                self.update_level()
+                self.update_level(pit)
             self.game_view.draw_level(self.screen, self.properties["level"])
 
             pygame.display.update()
@@ -130,16 +131,13 @@ class Game:
             self.clock.tick(60)
         pygame.quit()
 
-    def update_level(self):
+    def update_level(self, pit):
         """
-        Changes speed that platforms approach at each level.
+        Changes speed that platforms approach at each level and level number.
         """
         self.properties["level"] += 1
-        print(f"Level {self.properties["level"]}")
-        if self.properties["level"] == 1:
-            self.properties["pit_speed"] = 3.5
-        else:
-            self.properties["pit_speed"] += 10
+        self.properties["pit_speed"] += 3
+        pit.update_level(self.properties["pit_speed"])
 
     def reset_game(self):
         """
