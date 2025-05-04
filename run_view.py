@@ -117,7 +117,7 @@ class StartScreenView:
         background_rect: A rectangle object to display the background image on.
     """
 
-    def __init__(self, background_img):
+    def __init__(self):
         """_
         Initializes the variables for the start screen.
 
@@ -125,8 +125,15 @@ class StartScreenView:
             background_img: A string representing the path to the image
             for the background.
         """
-        self.background_img = pygame.transform.scale_by(background_img, 0.6)
+        self.background_img = pygame.transform.scale_by(
+            pygame.image.load("images/start_screen.png").convert_alpha(), 0.6
+        )
         self.background_rect = self.background_img.get_rect()
+        self.alien_img = pygame.transform.scale_by(
+            pygame.image.load("images/BOTH_legs.png").convert_alpha(), 0.8
+        )
+        self.alien_rect = self.alien_img.get_rect()
+        self.alien_rect.center = (400, 400)
         self.background_rect.center = (400, 300)
 
     def draw(self, screen, button):
@@ -145,6 +152,7 @@ class StartScreenView:
         # Draw everything
         screen.fill((0, 0, 0))
         screen.blit(self.background_img, self.background_rect)
+        screen.blit(self.alien_img, self.alien_rect)
         clicked = button.draw_button(screen)
         pygame.display.update()
 

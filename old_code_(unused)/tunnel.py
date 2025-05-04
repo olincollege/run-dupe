@@ -15,7 +15,11 @@ class Run3Model:
             100,
             200,
             20,
-            (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)),
+            (
+                random.randint(0, 255),
+                random.randint(0, 255),
+                random.randint(0, 255),
+            ),
         )
         self.runner = Runner(200, 450, 100, 20)
 

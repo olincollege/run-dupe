@@ -1,0 +1,10 @@
+[
+  "test_alien.py::test_alien_jump",
+  "test_alien.py::test_alien_move_left",
+  "test_alien.py::test_alien_move_right",
+  "test_run_model.py::test_character_jump_flag",
+  "test_run_model.py::test_initial_level",
+  "test_run_model.py::test_pit_update_and_reset",
+  "test_run_model.py::test_reset_game",
+  "test_run_model.py::test_update_level"
+]

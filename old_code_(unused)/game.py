@@ -41,7 +41,9 @@ class Game:
         self.start_button = start_screen.Button(300, 300, start_img)
 
         # Start background image
-        self.background_img = pygame.image.load("start_screen.png").convert_alpha()
+        self.background_img = pygame.image.load(
+            "start_screen.png"
+        ).convert_alpha()
         self.background_rect = self.background_img.get_rect()
         self.speed_x = 1
         self.speed_y = 1

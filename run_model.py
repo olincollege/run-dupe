@@ -45,13 +45,10 @@ class Game:
         start_img = pygame.transform.scale_by(
             pygame.image.load("images/start_button.png").convert_alpha(), 0.1
         )
-        self.start_button = Button(300, 200, start_img)
+        self.start_button = Button(300, 100, start_img)
 
-        # Load image and class for start screen background
-        background_img = pygame.image.load(
-            "images/start_screen.png"
-        ).convert_alpha()
-        self.start_screen_view = StartScreenView(background_img)
+        # Load class for start screen background
+        self.start_screen_view = StartScreenView()
 
         # Initialize some game properties
         self.properties = {"level": 1, "pit_speed": 3.5}
@@ -95,7 +92,7 @@ class Game:
             pit = PitController(
                 300,
                 0,
-                200,
+                300,
                 10,
                 self.properties["pit_speed"],
                 self.properties["level"],

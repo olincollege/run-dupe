@@ -155,10 +155,10 @@ class PitController:
         Initializes the variables to create the pit.
 
         Args:
-            x_pos: An integer representing the x position of the pit.
-            y_pos: An integer representing the y position of the pit.
-            width: An integer representing the width of the pit.
-            height: An integer representing the height of the pit.
+            x_pos: A float representing the x position of the pit.
+            y_pos: A float representing the y position of the pit.
+            width: A float representing the width of the pit.
+            height: A float representing the height of the pit.
             level: An integer representing the current level.
         """
         self.starting_xy_wh = (x_pos, y_pos, width, height)
@@ -168,8 +168,8 @@ class PitController:
         self.height = height * level
         self._y_speed = speed
         self.pit_num = 0
-        self._width_scaler = 0.2
-        self._height_scaler = 0.4
+        self._width_scaler = 1.5
+        self._height_scaler = 1.4
         self._left_or_right = 0
 
     def update(self):
@@ -188,28 +188,19 @@ class PitController:
             direction = random.randint(0, 3)
             if direction == 0:
                 self._left_or_right = -1
-                print("left")
-                self.starting_xy_wh = (
-                    self.x_pos + 100,
-                    self.y_pos,
-                    self.width,
-                    self.height,
-                )
             elif direction == 1:
                 self._left_or_right = 0
             else:
-                print("right")
                 self._left_or_right = 1
-                self.starting_xy_wh = (
-                    self.x_pos - 100,
-                    self.y_pos,
-                    self.width,
-                    self.height,
-                )
         # Update pit position to move down the screen in direction
         else:
             self.y_pos += self._y_speed
-            self.x_pos += self._left_or_right / 5 + self._left_or_right * 2
+            if self._left_or_right == -1:
+                self.x_pos -= 2.5
+            elif self._left_or_right == 1:
+                self.x_pos += 2
+            else:
+                self.x_pos += 0
             self.width += self._width_scaler
             self.height += self._height_scaler
 
