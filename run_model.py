@@ -1,9 +1,12 @@
 """Runs the game."""
 
 import pygame
+from run_controller import (
+    AlienController,
+    PitController,
+    Start_Screen_Controller,
+)
 from run_view import GameView, StartScreenView
-from run_controller import AlienController, PitController
-from run_start_screen import Button
 
 
 class Game:
@@ -45,7 +48,9 @@ class Game:
         start_img = pygame.transform.scale_by(
             pygame.image.load("images/start_button.png").convert_alpha(), 0.1
         )
-        self.start_button = Button(300, 100, start_img)
+        self.start_screen_controller = Start_Screen_Controller(
+            300, 100, start_img
+        )
 
         # Load class for start screen background
         self.start_screen_view = StartScreenView()
@@ -74,7 +79,7 @@ class Game:
                 # Draw start screen and start button
                 clicked = self.start_screen_view.draw(
                     self.screen,
-                    self.start_button,
+                    self.start_screen_controller,
                 )
 
                 # If start button is clicked change displays to game running
@@ -180,7 +185,7 @@ class Game:
 
         self.game_view.rect.topleft = self.alien_controller.rect.topleft
 
-        self.start_button.clicked = False
+        self.start_screen_controller.clicked = False
         self.which_screen = {"start_screen": True, "run": False}
 
 
