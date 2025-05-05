@@ -1,6 +1,0 @@
-{
-  "test_alien.py::test_alien_move_left": true,
-  "test_alien.py::test_alien_move_right": true,
-  "test_alien.py::test_alien_jump": true,
-  "test_run_model.py::test_reset_game": true
-}
