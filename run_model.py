@@ -31,9 +31,9 @@ class Game:
     # pylint: disable=too-many-instance-attributes
     def __init__(self):
         # Plays music
-        # pygame.mixer.init()
-        # pygame.music.load("string")
-        # pygame.mixer.music.play(-1)
+        pygame.mixer.init()
+        pygame.mixer.music.load("music.mp3")
+        pygame.mixer.music.play(-1)
 
         pygame.init()
 

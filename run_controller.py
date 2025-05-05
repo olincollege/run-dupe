@@ -172,9 +172,9 @@ class PitController:
         self.height = height * level
         self._y_speed = speed
         self.pit_num = 0
-        self._width_scaler = 1.5
+        self._width_scaler = 2
         self._height_scaler = 1.4
-        self._left_or_right = 0
+        self.direction = 0
 
     def update(self):
         """
@@ -188,21 +188,24 @@ class PitController:
             self.y_pos = self.starting_xy_wh[1]
             self.width = self.starting_xy_wh[2]
             self.height = self.starting_xy_wh[3]
-            # Random direction the pit goes
-            direction = random.randint(0, 3)
-            if direction == 0:
-                self._left_or_right = -1
-            elif direction == 1:
-                self._left_or_right = 0
+
+            # Random direction the pit goes and width
+            self.direction = random.choice(["left", "center", "right"])
+            if self.direction == "left":
+                self.x_pos = 200
+                self.width = random.choice([200, 300, 400])
+            elif self.direction == "center":
+                self.width = random.choice([200, 300, 400, 650])
             else:
-                self._left_or_right = 1
+                self.x_pos = 350
+                self.width = random.choice([200, 300, 400])
         # Update pit position to move down the screen in direction
         else:
             self.y_pos += self._y_speed
-            if self._left_or_right == -1:
+            if self.direction == "left":
                 self.x_pos -= 2.5
-            elif self._left_or_right == 1:
-                self.x_pos += 2
+            elif self.direction == "right":
+                self.x_pos += 1.5
             else:
                 self.x_pos += 0
             self.width += self._width_scaler
