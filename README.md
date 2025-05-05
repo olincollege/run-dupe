@@ -24,17 +24,6 @@ The view classes can be found in `run_view.py`. This file contains two classes: 
 The model class can be found in `run_model.py` and it imports all the classes from `run_controller.py` and `run_view.py` and puts them together into a model class that runs the game (that's why this is the file you run to open the game window).
 
 ## How to Play?
-
-**To run the game run the file `run_model.py`**
-
-Once launched, you'll see a start screen. Press the "Start" button to begin—there’s no countdown, so be ready to play immediately. You control an alien character running along a platform in space while dodging incoming pits.
-
-Use the arrow keys or WASD to move left and right. Press the space bar to jump. Your objective is to stay alive as long as possible and reach the highest level you can.
-
-You’ll level up after passing five platforms in a single run. For the first eight levels, each level-up increases the game’s speed, raising the difficulty. If your character falls into a pit or off the platform, the game ends and resets to the home screen, where you can try again. Your current level is displayed in the top-left corner during gameplay.
-
-This structure allows for quick retries, a progressively harder challenge, and an intuitive control scheme accessible to both new and experienced players.
-
 ### Getting Started
 
 #### Required Software Packages
@@ -49,6 +38,16 @@ To install these libraries, run the following command in your terminal:
 ```bash
 pip install -r requirements.txt
 ```
+
+**To run the game run the file `run_model.py`**
+
+Once launched, you'll see a start screen. Press the "Start" button to begin—there’s no countdown, so be ready to play immediately. You control an alien character running along a platform in space while dodging incoming pits.
+
+Use the arrow keys or WASD to move left and right. Press the space bar to jump. Your objective is to stay alive as long as possible and reach the highest level you can.
+
+You’ll level up after passing five platforms in a single run. For the first eight levels, each level-up increases the game’s speed, raising the difficulty. If your character falls into a pit or off the platform, the game ends and resets to the home screen, where you can try again. Your current level is displayed in the top-left corner during gameplay.
+
+This structure allows for quick retries, a progressively harder challenge, and an intuitive control scheme accessible to both new and experienced players.
 
 ### Documentation
 
