@@ -3,6 +3,7 @@
 **Software Design: ENGR2510-02 Spring 2025**
 
 **Project By: Mira Epstein & Kuhu Jayaswal**
+
 *To access our project, kindly navigate to the 'View on GitHub' button at the top of our website!*
 
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
@@ -16,6 +17,7 @@ Our project is a recreation of the classic Run game series—a fast-paced platfo
 We enhanced the original concept by adding a clean, accessible UI and a structured, progressively challenging design. The game is built using the Model-View-Controller (MVC) architecture to keep the code modular and easy to maintain. This structure made it easier to implement features like real-time level tracking and control responsiveness while also allowing for future scalability.
 
 ## Code Overview
+
 On the technical side, the project is built using the Model-View-Controller (MVC) design pattern. 
 
 The controller classes can be found in `run_controller.py`. This file contains three classes: `AlienController`, `PitController`, and `StartScreenController`. Each one controls the character, the pits approaching the character, and the button on the start screen respectively.
@@ -51,6 +53,25 @@ You’ll level up after passing five platforms in a single run. For the first ei
 
 This structure allows for quick retries, a progressively harder challenge, and an intuitive control scheme accessible to both new and experienced players.
 
-### Documentation
+## Demonstration
 
-Documentation and more information about our program can be found on our website [insert link here]
+Here’s a preview of what the game looks like:
+
+### Start Screen  
+This is the first screen the player sees, with a start button and the alien character.
+
+![Start Screen](images/START_PAGE.png)
+
+### Gameplay  
+As the game begins, your character starts running down a platform filled with gaps.
+
+![Gameplay](images/LEVELS.png)
+
+### Main Character  
+This is the alien character you control throughout the game.
+
+![Alien Character](images/BOTH_legs.png)
+
+## Video
+
+
