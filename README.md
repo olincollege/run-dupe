@@ -82,5 +82,5 @@ This is the alien character you control throughout the game.
 </p>
 
 <p align="center">
-  <strong>Hong</strong> &nbsp;&nbsp;&nbsp;&nbsp; <strong>Teammate Name</strong>
+  <strong>Mira Epstein</strong> &nbsp;&nbsp;&nbsp;&nbsp; <strong>Kuhu Jayaswal</strong>
 </p>
