@@ -74,4 +74,13 @@ This is the alien character you control throughout the game.
 
 ## Video
 
+## Project Creators
+<p align="left">
+  <img src="images/LEVELS.png" alt="Hong" width="150" style="border-radius: 50%;"/>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="assets/START_PAGE.png" alt="Teammate" width="150" style="border-radius: 50%;"/>
+</p>
 
+<p align="center">
+  <strong>Hong</strong> &nbsp;&nbsp;&nbsp;&nbsp; <strong>Teammate Name</strong>
+</p>
