@@ -122,7 +122,7 @@ class AlienController(pygame.sprite.Sprite):
             self.rect.top > 600
             or int(self.rect.left + self.width / 2) < 30
             or int(self.rect.right - self.width / 2) > 675
-        ):
+        ) and self.state["on_ground"] is True:
             self.alive = False
 
         # Keep feet on ground
