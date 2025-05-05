@@ -24,9 +24,8 @@ The view classes can be found in `run_view.py`. This file contains two classes: 
 The model class can be found in `run_model.py` and it imports all the classes from `run_controller.py` and `run_view.py` and puts them together into a model class that runs the game (that's why this is the file you run to open the game window).
 
 ## How to Play?
-### Getting Started
 
-#### Required Software Packages
+### Setup--> Required Software Packages
 
 To run our project on your device, you will need the following libraries (excluding the standard python library).
 
@@ -38,6 +37,8 @@ To install these libraries, run the following command in your terminal:
 ```bash
 pip install -r requirements.txt
 ```
+
+### RUN RUN RUN!
 
 **To run the game run the file `run_model.py`**
 
