@@ -4,7 +4,7 @@ import pygame
 from run_controller import (
     AlienController,
     PitController,
-    Start_Screen_Controller,
+    StartScreenController,
 )
 from run_view import GameView, StartScreenView
 
@@ -31,9 +31,9 @@ class Game:
     # pylint: disable=too-many-instance-attributes
     def __init__(self):
         # Plays music
-        pygame.mixer.init()
-        pygame.music.load("string")
-        pygame.mixer.music.play(-1)
+        # pygame.mixer.init()
+        # pygame.music.load("string")
+        # pygame.mixer.music.play(-1)
 
         pygame.init()
 
@@ -53,7 +53,7 @@ class Game:
         start_img = pygame.transform.scale_by(
             pygame.image.load("images/start_button.png").convert_alpha(), 0.1
         )
-        self.start_screen_controller = Start_Screen_Controller(
+        self.start_screen_controller = StartScreenController(
             300, 100, start_img
         )
 

@@ -218,7 +218,7 @@ class PitController:
         self._y_speed = new_speed
 
 
-class Start_Screen_Controller:
+class StartScreenController:
     """
     Represents a clickable button with a hover effect.
 
