@@ -1,8 +1,9 @@
 # run-dupe
 
-**Software Design: ENGR2510-02.25SP**
+**Software Design: ENGR2510-02 Spring 2025**
 
 **Project By: Mira Epstein & Kuhu Jayaswal**
+*To access our project, kindly navigate to the 'View on GitHub' button at the top of our website!*
 
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
@@ -40,9 +41,9 @@ pip install -r requirements.txt
 
 ### RUN RUN RUN!
 
-**To run the game run the file `run_model.py`**
+**To run the game, open the file `run_model.py`**
 
-Once launched, you'll see a start screen. Press the "Start" button to begin—there’s no countdown, so be ready to play immediately. You control an alien character running along a platform in space while dodging incoming pits.
+Once launched, you'll see a start screen. Press the "Start" button to begin— there’s no countdown, so be ready to play immediately. You control an alien character running along a platform in space while dodging incoming pits.
 
 Use the arrow keys or WASD to move left and right. Press the space bar to jump. Your objective is to stay alive as long as possible and reach the highest level you can.
 
