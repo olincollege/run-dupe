@@ -1,6 +1,6 @@
 # run-dupe
 
-**ENGR2510-02.25SP**
+**Software Design: ENGR2510-02.25SP**
 
 **Project By: Mira Epstein & Kuhu Jayaswal**
 
@@ -8,17 +8,32 @@
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 ![pylint status: passing](https://img.shields.io/badge/pylint-passing-green)
 
+## The Big Idea
 
-### Project Overview
+Our project is a recreation of the classic Run game series—a fast-paced platformer where the player navigates through tunnels in space without falling into pits. We've designed several levels that increase in difficulty as the character speeds up and more pits appear. Unlike the original rotating tunnel mechanic, we opted for a fixed orientation to make the gameplay more accessible for people who may not be used to playing video games or who have reduced hand dexterity.
+
+We enhanced the original concept by adding a clean, accessible UI and a structured, progressively challenging design. The game is built using the Model-View-Controller (MVC) architecture to keep the code modular and easy to maintain. This structure made it easier to implement features like real-time level tracking and control responsiveness while also allowing for future scalability.
+
+## Code Overview
+On the technical side, the project is built using the Model-View-Controller (MVC) design pattern. 
+
+The controller classes can be found in `run_controller.py`. This file contains three classes: `AlienController`, `PitController`, and `StartScreenController`. Each one controls the character, the pits approaching the character, and the button on the start screen respectively.
+
+The view classes can be found in `run_view.py`. This file contains two classes: `GameView` and `StartScreenView`. `GameView` draws the character, the pits approaching the character, the background, and the level counter. `StartScreenView` draws the starting screen background, the start button, and the image displayed when you open the game.
+
+The model class can be found in `run_model.py` and it imports all the classes from `run_controller.py` and `run_view.py` and puts them together into a model class that runs the game (that's why this is the file you run to open the game window).
+
+## How to Play?
 
 **To run the game run the file `run_model.py`**
 
-In this project, we recreated the popular 3d platformer game run. We made the project our own by removing the rotating tunnel to make it easier. This is useful to people who are not used to playing computer games or have less dexterity in their hands.
+Once launched, you'll see a start screen. Press the "Start" button to begin—there’s no countdown, so be ready to play immediately. You control an alien character running along a platform in space while dodging incoming pits.
 
-To begin playing the game press the start button displayed on the screen, the game with then immediately start going so you better focus.
+Use the arrow keys or WASD to move left and right. Press the space bar to jump. Your objective is to stay alive as long as possible and reach the highest level you can.
 
-The goal of the game is to make it to the highest level you can. Your character is an alien that is running on a platform, with pits quickly approaching your character, if your character falls into the pit or off the platform, it dies. To avoid this happening, you can move your character using the arrow keys or wasd (the space bar will make the character jump too). When the character dies, the game resets to the home screen so you can try again! The levels are displayed in the upper left corner of the screen when playing. You will level up after passing 5 platforms in a single run. When you level up for the first 8 levels, the speed increases. When your character dies your level resets.
+You’ll level up after passing five platforms in a single run. For the first eight levels, each level-up increases the game’s speed, raising the difficulty. If your character falls into a pit or off the platform, the game ends and resets to the home screen, where you can try again. Your current level is displayed in the top-left corner during gameplay.
 
+This structure allows for quick retries, a progressively harder challenge, and an intuitive control scheme accessible to both new and experienced players.
 
 ### Getting Started
 
@@ -34,17 +49,6 @@ To install these libraries, run the following command in your terminal:
 ```bash
 pip install -r requirements.txt
 ```
-
-### Program Overview
-
-This project was built using the Model-View-Controller pattern.
-
-The controller classes can be found in `run_controller.py`. This file contains three classes: `AlienController`, `PitController`, and `StartScreenController`. Each one controls the character, the pits approaching the character, and the button on the start screen respectively.
-
-The view classes can be found in `run_view.py`. This file contains two classes: `GameView` and `StartScreenView`. `GameView` draws the character, the pits approaching the character, the background, and the level counter. `StartScreenView` draws the starting screen background, the start button, and the image displayed when you open the game.
-
-The model class can be found in `run_model.py` and it imports all the classes from `run_controller.py` and `run_view.py` and puts them together into a model class that runs the game (that's why this is the file you run to open the game window).
-
 
 ### Documentation
 
