@@ -40,7 +40,9 @@ def test_character_jump():
     """Tests that character can jump."""
     controller = AlienController(375, 375, 50, 50)
     controller.state["jumping"] = True
-    assert controller.state["jumping"] is True
+    controller.velocity_y = -20
+    controller.update()
+    assert controller.rect.bottom < 425
 
 
 def test_reset_game():
@@ -59,7 +61,7 @@ def test_reset_game():
     assert controller.alien_controller.alive is True
 
 
-def test_jump():
+def test_jump_alive():
     """Tests that when character is jumping it is alive."""
     controller = AlienController(375, 300, 50, 50)
     assert controller.alive is True
@@ -78,6 +80,7 @@ def test_animation_jump():
     """Tests tha character displays the correct image when jumping."""
     view = GameView()
     view.jumping = True
+    view.alive = True
     assert view.image == view.images["both"]
 
 
@@ -87,3 +90,24 @@ def test_animation_death():
     controller.alive = False
     view = GameView()
     assert view.image == view.images["both"]
+
+
+def test_alien_horizontal_movement():
+    """Test that alien can move in x direction."""
+    controller = AlienController(375, 375, 50, 50)
+    controller.velocity_x = 5
+    initial_x = controller.rect.x
+    controller.update()
+    assert controller.rect.x > initial_x
+
+
+def test_alien_lands_after_jump():
+    """Test that alien stops jumping after it lands."""
+    controller = AlienController(375, 375, 50, 50)
+    controller.state["jumping"] = True
+    controller.state["on_ground"] = False
+    controller.velocity_y = 0
+    controller.rect.y = 750
+    controller.update()
+    assert controller.state["on_ground"] is True
+    assert controller.state["jumping"] is False
