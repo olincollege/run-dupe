@@ -15,14 +15,13 @@ class Game:
 
     Attributes:
         screen and clock: Pygame classes that set up the game.
-        start_screen and run: Booleans that represent the state of the game.
-        alien_controller and game_view: Classes that represent the controller
-        and view the game.
-        start_button and start_screen_view: Classes that represent the
-        start button and the view of the start screen.
+        start_screen and run: Booleans that represent the state of the game
+        so the model knows what screen to display.
+        alien_controller and start_screen_controller: Classes that represent
+        the controllers for the character and the start button.
         properties: A dictionary with keys of strings representing game
-        properties and values of floats that represent the level and the
-        speed that the pits approach the character.
+        properties (level and pit_speed) and values of floats that represent
+        the level and the speed that the pits approach the character.
         which_screen: A dictionary with keys of string representing the
         two displays and values of booleans with True if that display is
         being shown, else False.
@@ -44,21 +43,14 @@ class Game:
         self.screen = pygame.display.set_mode((800, 600))
         self.clock = pygame.time.Clock()
 
-        # Load classes for game controller and view
+        # Load classes for game controller for character and start button
         self.alien_controller = AlienController(375, 375, 50, 50)
+        self.start_screen_controller = StartScreenController(300, 100)
+
+        # Load classes for game view for game and start screen
         self.game_view = GameView()
-        self.game_view.rect.topleft = self.alien_controller.rect.topleft
-
-        # Load image and class for start button
-        start_img = pygame.transform.scale_by(
-            pygame.image.load("images/start_button.png").convert_alpha(), 0.1
-        )
-        self.start_screen_controller = StartScreenController(
-            300, 100, start_img
-        )
-
-        # Load class for start screen background
         self.start_screen_view = StartScreenView()
+        self.game_view.rect.topleft = self.alien_controller.rect.topleft
 
         # Initialize some game properties
         self.properties = {"level": 1, "pit_speed": 3.5}

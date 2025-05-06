@@ -14,13 +14,14 @@ class AlienController(pygame.sprite.Sprite):
 
 
     Attributes:
-        width and height: Integers representing the width and height of
+        width and height: Floats representing the width and height of
         the character.
         rect: A surface object representing the character.
         state: A dictionary with keys that are strings representing states
-        that the character can be in and values of booleans.
+        that the character can be in (jumping and on the ground) and values
+        of booleans representing if the states are true or false.
         alive: A boolean representing whether the character is alive.
-        velocity_x and velocity_y: Integers representing the characters
+        velocity_x and velocity_y: Floats representing the characters
         x and y velocities.
     """
 
@@ -138,16 +139,16 @@ class PitController:
     Creates a pit.
 
     Attributes:
-        starting_xy_wh: A list of integers representing the starting conditions
+        starting_xy_wh: A list of floats representing the starting conditions
         of the pit.
-        x_pos, y_pos: Integers representing the x and y positions of the pit.
-        width, height: Integers representing the width and height of the pit.
+        x_pos, y_pos: Floats representing the x and y positions of the pit.
+        width, height: Floats representing the width and height of the pit.
         __y_speed: A float representing the speed that the pit approaches
         the character.
         _width_scalar, _height_scalar: A float representing the rate that the
         width and height of the pit is growing as it approaches the character.
-        _left_or_right: An integer representing which direction the pit
-        should approach the character from, -1 for left and 1 for right.
+        direction: A string randomly selected from a list to decide if the pit
+        should go towards the left, right or center.
         pit_num: An integer representing the number of pits that have
         been created.
     """
@@ -226,25 +227,26 @@ class StartScreenController:
     Represents a clickable button with a hover effect.
 
     Attributes:
-        image: A string representing the path to the image representing
-        the button.
+        image: A Pygame surface object showing the button's image.
         hover_image: A modified version of the original image.
         rect: An rectangle representing the button.
         clicked: A boolean representing whether or not the button has
         been clicked.
     """
 
-    def __init__(self, x_pos, y_pos, image):
-        """_summary_
+    def __init__(self, x_pos, y_pos):
+        """
+        Initialize attributes for start screen controller.
 
         Args:
-            x_val: An integer representing the x coordinate of the button.
-            y_val: An integer representing the y coordinate of the button.
-            image: A Pygame surface object representing the button's image.
+            x_pos: An integer representing the x coordinate of the button.
+            y_pos: An integer representing the y coordinate of the button.
         """
         pygame.init()
-        self.image = image
-        self.hover_image = self._hover_button(image)
+        self.image = pygame.transform.scale_by(
+            pygame.image.load("images/start_button.png").convert_alpha(), 0.1
+        )
+        self.hover_image = self._hover_button(self.image)
         self.rect = self.image.get_rect(topleft=(x_pos, y_pos))
         self.clicked = False
 
@@ -253,10 +255,10 @@ class StartScreenController:
         Recolors an image.
 
         Args:
-            image: A string representing a path to an image.
+            image: A Pygame surface object representing the button's image.
 
         Returns:
-            An image that has been recolored.
+             A Pygame surface object showing button's image that has been recolored.
         """
         # Creates a copy of the original image
         hover_image = image.copy()
@@ -273,7 +275,7 @@ class StartScreenController:
         Draws the button and checks if it has been clicked.
 
         Args:
-            screen: An image of the background to draw the button on.
+            screen: A Pygame surface object showing an image of the background to draw the button on.
 
         Returns:
             A boolean of True if the button has been clicked, else
@@ -288,7 +290,7 @@ class StartScreenController:
         )
         screen.blit(current_image, self.rect)
 
-        # Handle click
+        # When button is clicked
         if self.rect.collidepoint(pos):
             # Check if button is pressed for the first time
             if pygame.mouse.get_pressed()[0] == 1 and not self.clicked:

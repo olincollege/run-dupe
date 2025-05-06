@@ -13,8 +13,8 @@ class GameView(pygame.sprite.Sprite):
 
     Attributes:
         images: A dictionary with keys that are strings representing the
-        titles of the
-        images and values of surface objects of images for the character.
+        titles of the images and values of surface objects of images for
+        the character animation.
         image: A surface object of the current image the character is
         displaying.
         rect: A surface object representing the character.
@@ -49,7 +49,7 @@ class GameView(pygame.sprite.Sprite):
         running, jumping, and death.
 
         Args:
-            controller: A class that acts as the controller for the alien.
+            controller: A class that acts as the controller for the character.
         """
         # Define when the at rest image should be used
         if not controller.alive:
@@ -73,12 +73,12 @@ class GameView(pygame.sprite.Sprite):
 
         Args:
             screen: A surface object representing the game window.
-            pit: A class that creates the pit.
-            controller: A class that acts as the controller.
+            pit: A class that acts as the controller for the pits.
+            controller: A class that acts as the controller for the character.
         """
 
         # Draw pit
-        # Pits are slightly off color from the background for detection
+        # Pits are slightly off color from the background for death detection
         pygame.draw.rect(
             screen,
             pygame.Color(1, 1, 1),
@@ -115,6 +115,7 @@ class StartScreenView:
     Attributes:
         background_img: An image object for the background of the start screen.
         background_rect: A rectangle object to display the background image on.
+        alien_img: An image object to draw the character on the start screen.
     """
 
     def __init__(self):
@@ -136,13 +137,14 @@ class StartScreenView:
         self.alien_rect.center = (400, 400)
         self.background_rect.center = (400, 300)
 
-    def draw(self, screen, button):
+    def draw(self, screen, controller):
         """
         Draws the background and the button.
 
         Args:
             screen: A surface object representing the game window.
-            button: The class that acts as the controller for the start button.
+            controller: The class that acts as the controller for the
+            start button.
 
         Returns:
             A boolean of True if the button has been clicked, else
@@ -153,11 +155,11 @@ class StartScreenView:
         screen.fill((0, 0, 0))
         screen.blit(self.background_img, self.background_rect)
         screen.blit(self.alien_img, self.alien_rect)
-        clicked = button.draw_button(screen)
+        clicked = controller.draw_button(screen)
         pygame.display.update()
 
         # Return when the button is clicked
         return clicked
 
     def pylint(self):
-        """I have pylint."""
+        """I hate pylint."""
