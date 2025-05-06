@@ -74,6 +74,8 @@ This is the alien character you control throughout the game.
 
 ## Video
 
+[![Watch the demo](images/cover.png)](https://drive.google.com/file/d/1MAYWdPcOrdtrWvkJQB7xQRdxn20WLEOs/view?usp=sharing)
+
 ## Project Creators
 <p align="center">
   <img src="images/zombie.png" alt="Mira" width="250">
