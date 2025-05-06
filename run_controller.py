@@ -263,7 +263,8 @@ class StartScreenController:
             image: A Pygame surface object representing the button's image.
 
         Returns:
-             A Pygame surface object showing button's image that has been recolored.
+             A Pygame surface object showing button's image that has been
+             recolored.
         """
         # Creates a copy of the original image
         hover_image = image.copy()
@@ -280,7 +281,8 @@ class StartScreenController:
         Draws the button and checks if it has been clicked.
 
         Args:
-            screen: A Pygame surface object showing an image of the background to draw the button on.
+            screen: A Pygame surface object showing an image of the background
+            to draw the button on.
 
         Returns:
             A boolean of True if the button has been clicked, else

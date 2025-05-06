@@ -3,6 +3,7 @@
 import pygame
 from run_model import Game
 from run_controller import AlienController, PitController
+from run_view import GameView
 
 # Initialize Pygame once for testing
 pygame.init()
@@ -71,3 +72,18 @@ def test_death():
     surface.fill((1, 1, 1))
     controller.check_pitfall(surface)
     assert controller.alive is False
+
+
+def test_animation_jump():
+    """Tests tha character displays the correct image when jumping."""
+    view = GameView()
+    view.jumping = True
+    assert view.image == view.images["both"]
+
+
+def test_animation_death():
+    """Tests tha character displays the correct image when jumping."""
+    controller = AlienController(375, 375, 50, 50)
+    controller.alive = False
+    view = GameView()
+    assert view.image == view.images["both"]
