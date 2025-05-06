@@ -24,7 +24,7 @@ The controller classes can be found in `run_controller.py`. This file contains t
 
 The view classes can be found in `run_view.py`. This file contains two classes: `GameView` and `StartScreenView`. `GameView` draws the character, the pits approaching the character, the background, and the level counter. `StartScreenView` draws the starting screen background, the start button, and the image displayed when you open the game.
 
-The model class can be found in `run_model.py` and it imports all the classes from `run_controller.py` and `run_view.py` and puts them together into a model class that runs the game (that's why this is the file you run to open the game window).
+The model class can be found in `run_model.py` and it imports all the classes from `run_controller.py` and `run_view.py` and puts them together into a model class `Game` that runs the game (that's why this is the file you run to open the game window).
 
 ## How to Play?
 
