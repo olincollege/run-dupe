@@ -49,7 +49,7 @@ Once launched, you'll see a start screen. Press the "Start" button to begin— t
 
 Use the arrow keys or WASD to move left and right. Press the space bar to jump. Your objective is to stay alive as long as possible and reach the highest level you can.
 
-You’ll level up after passing five platforms in a single run. For the first eight levels, each level-up increases the game’s speed, raising the difficulty. If your character falls into a pit or off the platform, the game ends and resets to the home screen, where you can try again. Your current level is displayed in the top-left corner during gameplay.
+You’ll level up after passing five platforms in a single run. Each level-up increases the game’s speed, raising the difficulty. There are many levels to pass, so see how far you can get! If your character falls into a pit or off the platform, the game ends and resets to the home screen, where you can try again. Your current level is displayed in the top-left corner during gameplay.
 
 This structure allows for quick retries, a progressively harder challenge, and an intuitive control scheme accessible to both new and experienced players.
 
