@@ -59,6 +59,15 @@ def test_reset_game():
 
 
 def test_jump():
-    """When character is jumping it is alive."""
+    """Tests that when character is jumping it is alive."""
     controller = AlienController(375, 300, 50, 50)
     assert controller.alive is True
+
+
+def test_death():
+    """Tests that character dies when touching the color of the pits."""
+    controller = AlienController(375, 300, 50, 50)
+    surface = pygame.Surface((600, 800))
+    surface.fill((1, 1, 1))
+    controller.check_pitfall(surface)
+    assert controller.alive is False

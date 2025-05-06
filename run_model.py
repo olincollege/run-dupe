@@ -91,9 +91,9 @@ class Game:
             self.clock.tick(60)
 
             # Create a pit
-            pit = PitController(
+            pit_controller = PitController(
                 300,
-                0,
+                -10,
                 300,
                 10,
                 self.properties["pit_speed"],
@@ -126,10 +126,12 @@ class Game:
                 self.screen.blit(background, (0, 0))
 
                 # Update pit location
-                pit.update()
+                pit_controller.update()
 
                 # Draw character and pits
-                self.game_view.draw(self.screen, pit, self.alien_controller)
+                self.game_view.draw(
+                    self.screen, pit_controller, self.alien_controller
+                )
                 self.game_view.draw_level(self.screen, self.properties["level"])
 
                 # If character dies reset game
@@ -138,11 +140,11 @@ class Game:
                     break
 
                 # New level after passing 5 pits
-                if pit.pit_num == 5:
+                if pit_controller.pit_num == 5:
                     self.update_level()
-                    pit = PitController(
+                    pit_controller = PitController(
                         300,
-                        0,
+                        -10,
                         200,
                         10,
                         self.properties["pit_speed"],
@@ -161,10 +163,12 @@ class Game:
         """
 
         self.properties["level"] += 1
-        # Speed up pit approaches for first 8 levels
+        # Speed up pit approaches for first 10 levels
         # (it gets too fast after that)
-        if 1 <= self.properties["level"] < 8:
+        if 1 <= self.properties["level"] < 5:
             self.properties["pit_speed"] += 1
+        elif self.properties["level"] < 10:
+            self.properties["pit_speed"] += 0.5
 
     def reset_game(self):
         """
