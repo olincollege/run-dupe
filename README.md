@@ -73,6 +73,7 @@ This is the alien character you control throughout the game.
 ![Alien Character](images/BOTH_legs.png)
 
 ## Video
+Click on the cover to watch our video on Google Drive!
 
 [![Watch the demo on Google Drive](images/cover.png)](https://drive.google.com/file/d/1MAYWdPcOrdtrWvkJQB7xQRdxn20WLEOs/view)
 
