@@ -95,14 +95,15 @@ class AlienController(pygame.sprite.Sprite):
 
         # Checks for the color of the pit
         # Can only die when touching pit and on ground
-        if self.state["on_ground"] and surface.get_at(
-            ((self.rect.x), self.rect.bottom + 100)
-        ) == (
-            1,
-            1,
-            1,
-        ):
-            self.alive = False
+        if self.rect.left > 0:
+            if self.state["on_ground"] and surface.get_at(
+                ((self.rect.x), self.rect.bottom + 100)
+            ) == (
+                1,
+                1,
+                1,
+            ):
+                self.alive = False
 
     def update(self):
         """
