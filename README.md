@@ -76,11 +76,11 @@ This is the alien character you control throughout the game.
 
 ## Project Creators
 <p align="center">
-  <img src="images/mira.png" alt="Mira" width="250">
+  <img src="images/zombie.png" alt="Mira" width="250">
   &nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="images/kuhu.png" alt="Kuhu" width="250">
+  <img src="images/joker.png" alt="Kuhu" width="250">
 </p>
 
 <p align="center">
-  <strong>Mira Epstein</strong> &nbsp;&nbsp;&nbsp;&nbsp; <strong>Kuhu Jayaswal</strong>
+  <strong>Mira Epstein</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>Kuhu Jayaswal</strong>
 </p>
